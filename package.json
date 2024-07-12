@@ -1,0 +1,17 @@
+{
+  "name": "les-petits-plats",
+  "version": "1.0.0",
+  "description": "Un projet pour le site de recettes de cuisine 'Les Petits Plats'",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/css/tailwind.css -o ./src/css/style.css --watch"
+  },
+  "author": "Votre Nom",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2"
+  }
+}

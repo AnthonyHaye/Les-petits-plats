@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./css/style.css" rel="stylesheet">
+  <!-- Ajouter les polices Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <title>Les petits plats</title>
+</head>
+  <div class="md:container md:mx-auto"></div>
+      <body class="font-manrope">
+        <header class="relative bg-cover bg-center bg-banner  height-40rem" style="background-image: url('./img/utils/banner.webp');">
+          <!-- <div class="absolute inset-0 bg-black opacity-50"></div> -->
+          <div class="relative z-10 flex flex-col items-center justify-center h-full text-white">
+            <div class="absolute top-4 left-4">
+              <img src="img/utils/logo.svg" alt="Les Petits Plats" class="w-60 h-auto">
+            </div>
+            <div class="text-center mt-20">
+              <h1 class="text-jaune md:text-4xl lg:text-6xl font-anton">
+                <span class="block">PARMI PLUS DE 1500 RECETTES</span> <br>
+                  <span class="block -mt-0.5">DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</span>
+              </h1>
+              <div class="mt-8 w-full max-w-4xl mx-auto">
+                <div class="flex items-center bg-white rounded-lg shadow-lg overflow-hidden">
+                  <input type="text" id="chercheRecette" placeholder="Rechercher une recette, un ingrédient, ..." class="flex-grow p-3 text-black outline-none">
+                  <button aria-hidden="true" aria-label="Efface la recherche"></button>
+                  <label for="chercheRecette" tabindex="0" aria-label="Recherche recette"></label>
+                  <button  class="p-5 m-1 bg-gray-800 text-white flex items-center justify-center hover:bg-jaune hover:text-noir rounded-lg" aria-label="Bouton de recherche">              
+                  <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main>
+          <div class="filter_section">
+              <p class="recipes_count"></p>
+          </div>
+          <div class="tag_section"></div>
+          <div class="card_section grid gap-4 grid-cols-3 grid-rows-3 justify-items-center bg-gris-light"></div>  
+        </main>
+
+        
+              
+        <script type="module" src="./scripts/page/main.js"></script>
+      </body>
+  </div>
+</html>
