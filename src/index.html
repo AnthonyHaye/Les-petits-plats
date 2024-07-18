@@ -23,22 +23,39 @@
                 <span class="block">PARMI PLUS DE 1500 RECETTES</span> <br>
                   <span class="block -mt-0.5">DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</span>
               </h1>
+
               <div class="mt-8 w-full max-w-4xl mx-auto">
-                <div class="flex items-center bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="flex items-center bg-white rounded-lg shadow-lg overflow-hidden relative border-solid border-2 border-jaune">
+
+
                   <input type="text" id="chercheRecette" placeholder="Rechercher une recette, un ingrédient, ..." class="flex-grow p-3 text-black outline-none">
-                  <button aria-hidden="true" aria-label="Efface la recherche"></button>
+                  
+                  <button id="clearSearchInput" class="absolute right-10 text-gray-400 hidden hover:text-jaune">
+                        <span class="fas fa-times"></span>
+                  </button>
+
+
+
+
+
+
+
+                  
+                  
                   <label for="chercheRecette" tabindex="0" aria-label="Recherche recette"></label>
                   <button  class="p-5 m-1 bg-gray-800 text-white flex items-center justify-center hover:bg-jaune hover:text-noir rounded-lg" aria-label="Bouton de recherche">              
                   <i class="fas fa-search"></i>
                   </button>
                 </div>
+
+
               </div>
             </div>
           </div>
         </header>
 
         <main class=" flex flex-col w-full min-h-full">
-          <div class="filter_section w-full min-h-32 bg-red-500">
+          <div class="filter_section w-full min-h-80 bg-red-500">
               <p class="nbr_recette   "></p>
               
           </div>

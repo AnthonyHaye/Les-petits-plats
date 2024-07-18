@@ -22,7 +22,7 @@ export default class RecetteCard {
                         <img src="./img/recette/recette/${this.recette.image}" alt="${this.recette.name}" class="h-full w-full object-cover">
                     </div>
                     <div class="card_infos m-2 overflow-y-auto max-h-[50%]">
-                        <h2 class="text-noir text-2xl font-anton mb-2 border-2">${this.recette.name}</h2>
+                        <h2 class="text-noir text-2xl font-anton mb-2 ">${this.recette.name}</h2>
                         <div class="card_infos_instructions mb-2">
                             <h3 class="text-lg font-manrope uppercase font-gris-light tracking-wider">Recette</h3>
                             <p class="text-sm font-manrope">${this.recette.description}</p>

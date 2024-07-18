@@ -3,7 +3,7 @@ console.log('Bonjour Anthony Haye');
 import Api from '../api/api.js';
 import Recette from '../models/Recette.js';
 import RecetteCard from '../components/RecetteCard.js';
-import ListeDeroulante from '../components/listeDeroulante.js';
+import ListeDeroulante from '../components/ListeDeroulante.js';
 import { openCloseDropdown } from '../../utils/openCloseDropdown.js';
 import { extractLesMoyens } from '../../utils/extractLesMoyens.js';
 import { toggleDeleteBtn } from '../../utils/toggleDeleteBtn.js';
