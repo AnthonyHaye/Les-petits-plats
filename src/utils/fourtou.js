@@ -1,103 +1,51 @@
-import { normalString } from "../../utils/normalString.js";
-import { filtreListesDeroulante } from "../../utils/filtreListesDeroulante.js"; // Importation du module de filtrage
-import { addTag } from '../../utils/tagManager.js';
+import { selectedTags, updateRecetteCourante, ToutesRecettes } from '../page/main.js';
 
-export default class ListeDeroulante {
-    constructor(name, items) {
-        this.name = name;
-        this.items = items;
-        this.filteredItems = items; // Ajouter filteredItems
-        this.itemListe = null;
-    }
-
-    createListeDeroulante() {
-        console.log("Liste Deroulante Créée");
-        const listeDeroulanteContenu = `
-            <div class="listeDeroulante w-52 m-1 bg-white rounded-lg relative">
-                <div class="dropdown-header flex items-center justify-between p-2 hover:bg-jaune cursor-pointer rounded-t-lg">
-                    <span class="dropdown-title pr-2">${this.name}</span>
-                    <button type="button" class="dropdown_btn text-black">
-                        <span class="fas fa-chevron-down transition-transform duration-200" aria-hidden="true"></span>
-                    </button>
-                </div>
-                <div class="absolute w-full hidden rounded-b-lg dropdown-content bg-white">
-                    <div class="m-2 p-1 flex flex-row items-center border-solid border-2 border-jaune">
-                        <input tabindex="-1" type="text" id="search-${this.name}" maxlength="12" placeholder="Rechercher..." class="outline-none bg-white w-5/6">
-                        <button tabindex="-1" class="text-gray-400 hidden ml-2" id="clearInput">
-                            <span class="fas fa-times hover:text-jaune"></span>
-                        </button>
-                        <span class="fas fa-search ml-2 hover:text-jaune"></span>
-                        <label for="search-${this.name}" aria-label="Search by ${this.name}" class="sr-only"></label>
-                    </div>
-                    <ul class="dropdown_content_list p-2 rounded max-h-60 overflow-y-auto">
-                        ${this.items.map(item => `<li class="p-1 hover:bg-jaune cursor-pointer">${item}</li>`).join('')}
-                    </ul>
-                </div>
-            </div>
-        `;
-
-        const listeDeroulanteWrapper = document.createElement('div');
-        listeDeroulanteWrapper.setAttribute('class', 'dropdown-wrapper m-2 relative');
-        listeDeroulanteWrapper.innerHTML = listeDeroulanteContenu;
-
-        const inputElement = listeDeroulanteWrapper.querySelector(`#search-${this.name}`);
-        const clearButton = listeDeroulanteWrapper.querySelector('#clearInput');
-        this.itemListe = listeDeroulanteWrapper.querySelectorAll('.dropdown_content_list li');
-
-        inputElement.addEventListener('input', () => {
-            this.search(normalString(inputElement.value), listeDeroulanteWrapper);
-            this.toggleDeleteBtn(inputElement, clearButton);
-        });
-
-        clearButton.addEventListener('click', () => {
-            inputElement.value = '';
-            clearButton.classList.add('hidden');
-            this.search('', listeDeroulanteWrapper);
-        });
-
-        this.itemListe.forEach(item => {
-            item.addEventListener('click', () => {
-                this.handleItemClick(item.textContent);
-                console.log("Un élément a été cliqué : " + item.textContent);
-            });
-        });
-
-        this.tagHandler(inputElement);
-
-        return listeDeroulanteWrapper;
-    }
-
-    toggleDeleteBtn(inputElement, clearButton) {
-        if (inputElement.value.length > 0) {
-            clearButton.classList.remove('hidden');
-        } else {
-            clearButton.classList.add('hidden');
-        }
-    }
-
-    handleItemClick(item) {
-        addTag(item);
+export const addTag = tag => {
+    if (!selectedTags.includes(tag)) {
+        selectedTags.push(tag);
+        renderTags();
         filterRecettes();
     }
+};
 
-    search(query, wrapper) {
-        this.filteredItems = filtreListesDeroulante(this.items, query);
-        this.updateList(wrapper);
+export const removeTag = tag => {
+    const index = selectedTags.indexOf(tag);
+    if (index > -1) {
+        selectedTags.splice(index, 1);
+        renderTags();
+        filterRecettes();
+    }
+};
+
+const renderTags = () => {
+    const tagSection = document.querySelector('.tag_section');
+    tagSection.innerHTML = '';
+    selectedTags.forEach(tag => {
+        const tagElement = document.createElement('span');
+        tagElement.className = 'tag w-48 h-12 flex items-center justify-between p-2 m-1 bg-jaune rounded-lg';
+        tagElement.innerHTML = `
+            <span class="tag-text">${tag}</span>
+            <button class="ml-2 text-black hover:text-white">
+                <span class="fas fa-times"></span>
+            </button>
+        `;
+        tagElement.addEventListener('click', () => removeTag(tag));
+        tagSection.appendChild(tagElement);
+    });
+};
+
+// Fonction pour filtrer les recettes en fonction des tags sélectionnés
+const filterRecettes = () => {
+    if (selectedTags.length === 0) {
+        updateRecetteCourante(ToutesRecettes);
+        return;
     }
 
-    updateList(wrapper) {
-        const listContainer = wrapper.querySelector('.dropdown_content_list');
-        listContainer.innerHTML = this.filteredItems.map(item => `<li class="p-1 hover:bg-jaune cursor-pointer">${item}</li>`).join('');
-        this.itemListe = listContainer.querySelectorAll('li');
-        this.itemListe.forEach(item => {
-            item.addEventListener('click', () => {
-                this.handleItemClick(item.textContent);
-                console.log("Un élément a été cliqué : " + item.textContent);
-            });
-        });
-    }
+    const filteredRecettes = ToutesRecettes.filter(recette =>
+        selectedTags.every(tag =>
+            recette.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(tag.toLowerCase()))
+        )
+    );
 
-    tagHandler(inputElement) {
-        // Ajoutez ici votre logique de gestion des tags
-    }
-}
+    updateRecetteCourante(filteredRecettes);
+};

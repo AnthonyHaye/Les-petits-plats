@@ -7,6 +7,8 @@ import ListeDeroulante from '../components/listeDeroulante.js';
 import { openCloseDropdown } from '../../utils/openCloseDropdown.js';
 import { extractLesMoyens } from '../../utils/extractLesMoyens.js';
 import { toggleDeleteBtn } from '../../utils/toggleDeleteBtn.js';
+import { AlgoRechercheBoucle, AlgoRechercheFonctionnel } from '../../utils/AlgoRecherche.js';
+import { addTag, removeTag } from '../components/tagManager.js';
 
 
     const recetteApi = new Api('./data/recipes.json');
@@ -17,8 +19,10 @@ import { toggleDeleteBtn } from '../../utils/toggleDeleteBtn.js';
     export const RecetteCourante = [...ToutesRecettes];
 
     // Met à jour le tableau RecetteCourante pour qu'il contienne les mêmes éléments du tableau RecetteFiltre.
-    export const updateRecetteCourante = RecetteFiltre => { 
+    export const updateRecetteCourante = RecetteFiltre => {
         RecetteCourante.splice(0, RecetteCourante.length, ...RecetteFiltre);
+        AfficheRecetteCards(); // Mettre à jour l'affichage des cartes de recettes
+        updateNombreDeRecettes(); // Mettre à jour le nombre de recettes affichées
     };
 
     export const selectedTags = [];
@@ -46,13 +50,30 @@ import { toggleDeleteBtn } from '../../utils/toggleDeleteBtn.js';
         
     };
 
+    // export const AfficheRecetteCards = () => {
+    //     ToutesRecettes
+    //         .map(recette => new Recette(recette))
+    //         .forEach(recette => {
+    //             const templateCard = new RecetteCard(recette);
+    //             templateCard.createCard();                        
+    //         });
+    // };
+
     export const AfficheRecetteCards = () => {
-        ToutesRecettes
+        const cardSection = document.querySelector('.card_section');
+        cardSection.innerHTML = ''; // Effacer les cartes existantes
+        RecetteCourante
             .map(recette => new Recette(recette))
             .forEach(recette => {
                 const templateCard = new RecetteCard(recette);
-                templateCard.createCard();                        
+                templateCard.createCard();
             });
+    };
+
+    // Fonction pour mettre à jour le nombre de recettes affichées
+    const updateNombreDeRecettes = () => {
+        const nombreDeRecette = document.querySelector('.nbr_recette');
+        nombreDeRecette.textContent = `${RecetteCourante.length} recettes`;
     };
 
     // Ajout de la fonctionnalité de suppression pour l'input de recherche dans le header
