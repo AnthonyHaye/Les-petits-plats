@@ -1,64 +1,103 @@
-// main.js
-console.log('Bonjour Anthony Haye');
-import Api from '../api/api.js';
-import Recette from '../models/Recette.js';
-import RecetteCard from '../components/RecetteCard.js';
-import ListeDeroulante from '../components/ListeDeroulante.js';
-import { openCloseDropdown } from '../../utils/openCloseDropdown.js';
-import { extractLesMoyens } from '../../utils/extractLesMoyens.js';
-import { toggleDeleteBtn } from '../../utils/toggleDeleteBtn.js';
+import { normalString } from "../../utils/normalString.js";
+import { filtreListesDeroulante } from "../../utils/filtreListesDeroulante.js"; // Importation du module de filtrage
+import { addTag } from '../../utils/tagManager.js';
 
-const recetteApi = new Api('./data/recipes.json');
-export const ToutesRecettes = await recetteApi.get();
-console.log(ToutesRecettes);
+export default class ListeDeroulante {
+    constructor(name, items) {
+        this.name = name;
+        this.items = items;
+        this.filteredItems = items; // Ajouter filteredItems
+        this.itemListe = null;
+    }
 
-// Copie du tableau de recettes pour pouvoir filtrer les recettes en cours
-export const RecetteCourante = [...ToutesRecettes];
+    createListeDeroulante() {
+        console.log("Liste Deroulante Créée");
+        const listeDeroulanteContenu = `
+            <div class="listeDeroulante w-52 m-1 bg-white rounded-lg relative">
+                <div class="dropdown-header flex items-center justify-between p-2 hover:bg-jaune cursor-pointer rounded-t-lg">
+                    <span class="dropdown-title pr-2">${this.name}</span>
+                    <button type="button" class="dropdown_btn text-black">
+                        <span class="fas fa-chevron-down transition-transform duration-200" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="absolute w-full hidden rounded-b-lg dropdown-content bg-white">
+                    <div class="m-2 p-1 flex flex-row items-center border-solid border-2 border-jaune">
+                        <input tabindex="-1" type="text" id="search-${this.name}" maxlength="12" placeholder="Rechercher..." class="outline-none bg-white w-5/6">
+                        <button tabindex="-1" class="text-gray-400 hidden ml-2" id="clearInput">
+                            <span class="fas fa-times hover:text-jaune"></span>
+                        </button>
+                        <span class="fas fa-search ml-2 hover:text-jaune"></span>
+                        <label for="search-${this.name}" aria-label="Search by ${this.name}" class="sr-only"></label>
+                    </div>
+                    <ul class="dropdown_content_list p-2 rounded max-h-60 overflow-y-auto">
+                        ${this.items.map(item => `<li class="p-1 hover:bg-jaune cursor-pointer">${item}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
 
-// Met à jour le tableau RecetteCourante pour qu'il contienne les mêmes éléments du tableau RecetteFiltre.
-export const updateRecetteCourante = RecetteFiltre => { 
-    RecetteCourante.splice(0, RecetteCourante.length, ...RecetteFiltre);
-};
+        const listeDeroulanteWrapper = document.createElement('div');
+        listeDeroulanteWrapper.setAttribute('class', 'dropdown-wrapper m-2 relative');
+        listeDeroulanteWrapper.innerHTML = listeDeroulanteContenu;
 
-export const selectedTags = [];
-export const ListeDeroulantes = [];
-export const RecetteARechercher = document.querySelector('#chercheRecette');
+        const inputElement = listeDeroulanteWrapper.querySelector(`#search-${this.name}`);
+        const clearButton = listeDeroulanteWrapper.querySelector('#clearInput');
+        this.itemListe = listeDeroulanteWrapper.querySelectorAll('.dropdown_content_list li');
 
-const AfficheListeDeroulanteFiltre = () => {
-    const nombreDeRecette = document.querySelector('.nbr_recette');
-    nombreDeRecette.textContent = `${ToutesRecettes.length} recettes`;
-
-    const filterSection = document.querySelector('.filter_section');
-    const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(ToutesRecettes).ingredients);
-    filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
-    ListeDeroulantes.push(ingredientListeDeroulante);
-};
-
-export const AfficheRecetteCards = () => {
-    ToutesRecettes
-        .map(recette => new Recette(recette))
-        .forEach(recette => {
-            const templateCard = new RecetteCard(recette);
-            templateCard.createCard();                        
+        inputElement.addEventListener('input', () => {
+            this.search(normalString(inputElement.value), listeDeroulanteWrapper);
+            this.toggleDeleteBtn(inputElement, clearButton);
         });
-};
 
-// Ajout de la fonctionnalité de suppression pour l'input de recherche dans le header
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('chercheRecette');
-    const clearSearchButton = document.getElementById('clearSearchInput');
+        clearButton.addEventListener('click', () => {
+            inputElement.value = '';
+            clearButton.classList.add('hidden');
+            this.search('', listeDeroulanteWrapper);
+        });
 
-    searchInput.addEventListener('input', () => {
-        toggleDeleteBtn(searchInput, clearSearchButton);
-    });
+        this.itemListe.forEach(item => {
+            item.addEventListener('click', () => {
+                this.handleItemClick(item.textContent);
+                console.log("Un élément a été cliqué : " + item.textContent);
+            });
+        });
 
-    clearSearchButton.addEventListener('click', () => {
-        searchInput.value = '';
-        clearSearchButton.classList.add('hidden');
-        // Ajoutez ici toute autre logique nécessaire lors de la suppression de la recherche, par exemple, réinitialiser les résultats de la recherche.
-    });
-});
+        this.tagHandler(inputElement);
 
-AfficheListeDeroulanteFiltre();
-AfficheRecetteCards();
-openCloseDropdown();
+        return listeDeroulanteWrapper;
+    }
+
+    toggleDeleteBtn(inputElement, clearButton) {
+        if (inputElement.value.length > 0) {
+            clearButton.classList.remove('hidden');
+        } else {
+            clearButton.classList.add('hidden');
+        }
+    }
+
+    handleItemClick(item) {
+        addTag(item);
+        filterRecettes();
+    }
+
+    search(query, wrapper) {
+        this.filteredItems = filtreListesDeroulante(this.items, query);
+        this.updateList(wrapper);
+    }
+
+    updateList(wrapper) {
+        const listContainer = wrapper.querySelector('.dropdown_content_list');
+        listContainer.innerHTML = this.filteredItems.map(item => `<li class="p-1 hover:bg-jaune cursor-pointer">${item}</li>`).join('');
+        this.itemListe = listContainer.querySelectorAll('li');
+        this.itemListe.forEach(item => {
+            item.addEventListener('click', () => {
+                this.handleItemClick(item.textContent);
+                console.log("Un élément a été cliqué : " + item.textContent);
+            });
+        });
+    }
+
+    tagHandler(inputElement) {
+        // Ajoutez ici votre logique de gestion des tags
+    }
+}

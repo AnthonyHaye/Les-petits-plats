@@ -11,6 +11,20 @@
     height: 40rem; /* Deux fois la hauteur de la fenêtre */
   }
 
+.w-400 {
+    width: 400px;
+}
+.h-400 {
+    height: 400px;
+}
 
+
+.Steeve{
+  @apply flex-grow p-3 text-black outline-none;
+}
+
+.bord{
+  @apply border-solid border-black border-2;
+}
 
 

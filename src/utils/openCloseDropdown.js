@@ -22,6 +22,9 @@ export const openCloseDropdown = () => {
         dropdownHeader.classList.toggle('bg-jaune');
         // Bascule la classe 'hover:bg-jaune' pour désactiver le hover quand actif
         dropdownHeader.classList.toggle('hover:bg-jaune');
+        // Ajoute ou supprime la classe z-20 pour gérer le z-index
+        dropdownContent.classList.toggle('z-20');
+        dropdownHeader.classList.toggle('z-20');
     };
 
     // Fonction pour fermer les autres dropdowns lorsque l'un d'entre eux est cliqué
@@ -42,6 +45,9 @@ export const openCloseDropdown = () => {
                 dropdownHeader.classList.remove('bg-white');
                 // Ajoute la classe 'hover:bg-jaune' pour réactiver le hover quand inactif
                 dropdownHeader.classList.add('hover:bg-jaune');
+                // Supprime la classe z-20 pour gérer le z-index
+                dropdownHeader.classList.remove('z-20');
+                dropdownHeader.nextElementSibling.classList.remove('z-20');
             }
         });
     };

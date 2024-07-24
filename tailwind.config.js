@@ -3,9 +3,6 @@ module.exports = {
   content: ["./src/**/*.{html,js}", "./index.html"],
   theme: {
     extend: {
-      maxHeight: {
-        '1/2': '50%',
-      },
       backgroundImage: {
         'banner': "url('./img/utils/banner.webp')",
       },

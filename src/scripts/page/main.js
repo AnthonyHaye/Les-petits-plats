@@ -8,57 +8,73 @@ import { openCloseDropdown } from '../../utils/openCloseDropdown.js';
 import { extractLesMoyens } from '../../utils/extractLesMoyens.js';
 import { toggleDeleteBtn } from '../../utils/toggleDeleteBtn.js';
 
-const recetteApi = new Api('./data/recipes.json');
-export const ToutesRecettes = await recetteApi.get();
-console.log(ToutesRecettes);
 
-// Copie du tableau de recettes pour pouvoir filtrer les recettes en cours
-export const RecetteCourante = [...ToutesRecettes];
+    const recetteApi = new Api('./data/recipes.json');
+    export const ToutesRecettes = await recetteApi.get();
+    console.log(ToutesRecettes);
 
-// Met à jour le tableau RecetteCourante pour qu'il contienne les mêmes éléments du tableau RecetteFiltre.
-export const updateRecetteCourante = RecetteFiltre => { 
-    RecetteCourante.splice(0, RecetteCourante.length, ...RecetteFiltre);
-};
+    // Copie du tableau de recettes pour pouvoir filtrer les recettes en cours
+    export const RecetteCourante = [...ToutesRecettes];
 
-export const selectedTags = [];
-export const ListeDeroulantes = [];
-export const RecetteARechercher = document.querySelector('#chercheRecette');
+    // Met à jour le tableau RecetteCourante pour qu'il contienne les mêmes éléments du tableau RecetteFiltre.
+    export const updateRecetteCourante = RecetteFiltre => { 
+        RecetteCourante.splice(0, RecetteCourante.length, ...RecetteFiltre);
+    };
 
-const AfficheListeDeroulanteFiltre = () => {
-    const nombreDeRecette = document.querySelector('.nbr_recette');
-    nombreDeRecette.textContent = `${ToutesRecettes.length} recettes`;
+    export const selectedTags = [];
+    export const ListeDeroulantes = [];
+    export const RecetteARechercher = document.querySelector('#chercheRecette');
 
-    const filterSection = document.querySelector('.filter_section');
-    const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(ToutesRecettes).ingredients);
-    filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
-    ListeDeroulantes.push(ingredientListeDeroulante);
-};
+    const AfficheListeDeroulanteFiltre = () => {
+        const nombreDeRecette = document.querySelector('.nbr_recette');
+        nombreDeRecette.textContent = `${ToutesRecettes.length} recettes`;
 
-export const AfficheRecetteCards = () => {
-    ToutesRecettes
-        .map(recette => new Recette(recette))
-        .forEach(recette => {
-            const templateCard = new RecetteCard(recette);
-            templateCard.createCard();                        
-        });
-};
+        const filterSection = document.querySelector('.contenairFiltre');
 
-// Ajout de la fonctionnalité de suppression pour l'input de recherche dans le header
-document.addEventListener('DOMContentLoaded', () => {
+        const ustensileListeDeroulante = new ListeDeroulante('Ustensiles', extractLesMoyens(ToutesRecettes).ustensils);
+        filterSection.appendChild(ustensileListeDeroulante.createListeDeroulante());
+        ListeDeroulantes.push(ustensileListeDeroulante);        
+
+        const appareilsListeDeroulante = new ListeDeroulante('Appareils', extractLesMoyens(ToutesRecettes).appliances);
+        filterSection.appendChild(appareilsListeDeroulante.createListeDeroulante());
+        ListeDeroulantes.push(appareilsListeDeroulante);
+        
+
+        const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(ToutesRecettes).ingredients);
+        filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
+        ListeDeroulantes.push(ingredientListeDeroulante);
+        
+    };
+
+    export const AfficheRecetteCards = () => {
+        ToutesRecettes
+            .map(recette => new Recette(recette))
+            .forEach(recette => {
+                const templateCard = new RecetteCard(recette);
+                templateCard.createCard();                        
+            });
+    };
+
+    // Ajout de la fonctionnalité de suppression pour l'input de recherche dans le header
     const searchInput = document.getElementById('chercheRecette');
     const clearSearchButton = document.getElementById('clearSearchInput');
 
-    searchInput.addEventListener('input', () => {
-        toggleDeleteBtn(searchInput, clearSearchButton);
-    });
+    if (searchInput && clearSearchButton) { // Vérifie que les éléments ont été trouvés.
+        console.log("Les éléments ont été trouvés !");
+        searchInput.addEventListener('input', () => {
+            toggleDeleteBtn(searchInput, clearSearchButton);
+        });
 
-    clearSearchButton.addEventListener('click', () => {
-        searchInput.value = '';
-        clearSearchButton.classList.add('hidden');
-        // Ajoutez ici toute autre logique nécessaire lors de la suppression de la recherche, par exemple, réinitialiser les résultats de la recherche.
-    });
-});
+        clearSearchButton.addEventListener('click', () => {
+            searchInput.value = '';
+            clearSearchButton.classList.add('hidden');
+            // Ajoutez ici toute autre logique nécessaire lors de la suppression de la recherche, par exemple, réinitialiser les résultats de la recherche.
+        });
+    } else {
+        console.error('Les éléments #chercheRecette ou #clearSearchInput sont introuvables.');
+    }
 
-AfficheListeDeroulanteFiltre();
-AfficheRecetteCards();
-openCloseDropdown();
+    AfficheListeDeroulanteFiltre();
+    AfficheRecetteCards();
+    openCloseDropdown();
+;
