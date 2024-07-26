@@ -17,7 +17,7 @@ export default class RecetteCard {
                 : ''
             }
                 <div class="h-1/2 flex items-center justify-center overflow-hidden">
-                    <img src="./img/recette/recette/${this.recette.image}" alt="Image de ${this.recette.name}" class="object-cover h-full w-full">
+                    <img src="./src/img/recette/recette/${this.recette.image}" alt="Image de ${this.recette.name}" class="object-cover h-full w-full">
                 </div>
                 <div class="h-1/2 p-4 overflow-y-auto">
                     <h2 id="recette-title-${this.recette.id}" class="text-noir text-2xl font-anton mb-2 ">${this.recette.name}</h2>

@@ -34,18 +34,27 @@ const renderTags = () => {
     });
 };
 
-// Fonction pour filtrer les recettes en fonction des tags sélectionnés
+// Cette fonction filtre les recettes en fonction des tags sélectionnés
 const filterRecettes = () => {
+    // Si aucun tag n'est sélectionné, affiche toutes les recettes
     if (selectedTags.length === 0) {
+        // Mise à jour des recettes affichées avec toutes les recettes disponibles
         updateRecetteCourante(ToutesRecettes);
-        return;
+        return; // Sortie de la fonction car aucune filtration n'est nécessaire
     }
 
+    // Filtrage des recettes en fonction des tags sélectionnés
     const filteredRecettes = ToutesRecettes.filter(recette =>
+        // Vérifie que chaque tag sélectionné est présent dans les ingrédients de la recette
         selectedTags.every(tag =>
-            recette.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(tag.toLowerCase()))
+            // Vérifie si un ingrédient de la recette contient le tag (insensible à la casse)
+            recette.ingredients.some(ingredient =>
+                ingredient.ingredient.toLowerCase().includes(tag.toLowerCase())
+            )
         )
     );
 
+    // Mise à jour des recettes affichées avec les recettes filtrées
     updateRecetteCourante(filteredRecettes);
 };
+

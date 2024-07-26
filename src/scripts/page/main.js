@@ -11,7 +11,7 @@ import { AlgoRechercheBoucle, AlgoRechercheFonctionnel } from '../../utils/AlgoR
 import { addTag, removeTag } from '../components/tagManager.js';
 
 
-    const recetteApi = new Api('./data/recipes.json');
+    const recetteApi = new Api('src/data/recipes.json');
     export const ToutesRecettes = await recetteApi.get();
     console.log(ToutesRecettes);
 
