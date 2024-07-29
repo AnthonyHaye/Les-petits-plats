@@ -1,4 +1,5 @@
-import { selectedTags, updateRecetteCourante, ToutesRecettes } from '../page/main.js';
+import { selectedTags, updateRecetteCourante, ToutesRecettes, AfficheListeDeroulanteFiltre } from '../page/main.js';
+import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
 
 export const addTag = tag => {
     if (!selectedTags.includes(tag)) {
@@ -40,21 +41,14 @@ const filterRecettes = () => {
     if (selectedTags.length === 0) {
         // Mise à jour des recettes affichées avec toutes les recettes disponibles
         updateRecetteCourante(ToutesRecettes);
+        AfficheListeDeroulanteFiltre(ToutesRecettes); // Mise à jour des listes déroulantes
         return; // Sortie de la fonction car aucune filtration n'est nécessaire
     }
 
-    // Filtrage des recettes en fonction des tags sélectionnés
-    const filteredRecettes = ToutesRecettes.filter(recette =>
-        // Vérifie que chaque tag sélectionné est présent dans les ingrédients de la recette
-        selectedTags.every(tag =>
-            // Vérifie si un ingrédient de la recette contient le tag (insensible à la casse)
-            recette.ingredients.some(ingredient =>
-                ingredient.ingredient.toLowerCase().includes(tag.toLowerCase())
-            )
-        )
-    );
+    // Utilisation de la nouvelle fonction de recherche pour filtrer les recettes
+    const filteredRecettes = filterRecettesByTagsIngredient(selectedTags, ToutesRecettes);
 
     // Mise à jour des recettes affichées avec les recettes filtrées
     updateRecetteCourante(filteredRecettes);
+    AfficheListeDeroulanteFiltre(filteredRecettes); // Mise à jour des listes déroulantes
 };
-

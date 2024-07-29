@@ -1,6 +1,6 @@
-import { normalString } from "../../utils/normalString.js";
+import { normalString } from "../utils/normalString.js";
 import { addTag } from "./tagManager.js";
-import { filtreListesDeroulante } from "../../utils/filtreListesDeroulante.js";
+import { filtreListesDeroulante } from "../utils/filtreListesDeroulante.js";
 
 export default class ListeDeroulante {
     constructor(name, items) {
@@ -55,15 +55,15 @@ export default class ListeDeroulante {
             this.search('', listeDeroulanteWrapper);
         });
 
-
         // écouteur de clic sur chaque élément de la liste déroulante
         this.itemListe.forEach(item => {
             item.addEventListener('click', () => {
-                this.handleItemClick(item.textContent);
+                if (this.name === 'Ingrédients') {  // Vérification pour les ingrédients
+                    this.handleItemClick(item.textContent);
+                }
                 console.log("Un élément a été cliqué : " + item.textContent);
             });
         });
-        
 
         this.tagHandler(inputElement);
 
@@ -86,21 +86,11 @@ export default class ListeDeroulante {
     }
 
     search(query, wrapper) {
-        this.filteredItems = filtreListesDeroulante(this.items, query);
-        this.updateList(wrapper);
-    }
-    
-    updateList(wrapper) {
-        const listContainer = wrapper.querySelector('.dropdown_content_list');
-        listContainer.innerHTML = this.filteredItems.map(item => `<li class="p-1 hover:bg-jaune cursor-pointer">${item}</li>`).join('');
-        this.itemListe = listContainer.querySelectorAll('li');
-        this.itemListe.forEach(item => {
-            item.addEventListener('click', () => {
-                this.handleItemClick(item.textContent);
-                console.log("Un élément a été cliqué : " + item.textContent);
-            });
-        });
-    }
+        if (this.name === 'Ingrédients') {  // Vérification pour les ingrédients
+            this.filteredItems = filtreListesDeroulante(this.items, query);
+            this.updateList(wrapper);
+        }
+    }   
     
 
     tagHandler(inputElement) {

@@ -46,3 +46,24 @@ export function AlgoRechercheFonctionnel(chercheTag, recettes) {
                         la différence de performance est généralement insignifiante pour des collections de taille modérée.
         Complexité : Le code est plus concis et expressif, réduisant le risque d'erreurs et facilitant la maintenance.
 */
+/********************************************************** */
+// Cette fonction recherche les recettes contenant le terme de recherche dans leurs ingrédients en utilisant des boucles for...of
+export function AlgoRechercheForOf(chercheTag, recettes) {
+    // Initialisation d'un tableau pour stocker les résultats de la recherche
+    let results = [];
+    // Boucle à travers chaque recette
+    for (const recette of recettes) {
+        // Boucle à travers chaque ingrédient de la recette courante
+        for (const ingredient of recette.ingredients) {
+            // Vérifie si l'ingrédient courant contient le terme de recherche (insensible à la casse)
+            if (ingredient.ingredient.toLowerCase().includes(chercheTag.toLowerCase())) {
+                // Si oui, ajoute la recette aux résultats
+                results.push(recette);
+                // Sort de la boucle interne pour éviter d'ajouter la même recette plusieurs fois
+                break;
+            }
+        }
+    }
+    // Retourne les résultats de la recherche
+    return results;
+}
