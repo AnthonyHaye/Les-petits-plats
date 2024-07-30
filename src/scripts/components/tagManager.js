@@ -1,6 +1,7 @@
 // tagManager.js
 import { selectedTags, updateRecetteCourante, ToutesRecettes } from '../page/main.js';
 import { combinedFilter } from '../utils/combinedFilter.js';
+import { AfficheListeDeroulanteFiltre } from '../page/main.js';
 
 // Fonction pour ajouter un tag
 export const addTag = (tag, type) => {

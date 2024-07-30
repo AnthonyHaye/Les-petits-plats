@@ -683,7 +683,7 @@
                 "quantity": 1
             }
         ],
-        "time": 0,
+        "time": 12,
         "description":"Coupez les fruits en morceaux, ajouter le jus de citron et le lait ainsi que le sucre glace. Mixez. Ajoutez des glaçons si le lait n'a pas été mis au frais.",
         "appliance": "Blender",
         "ustensils":["couteau", "verres", "presse citron"]
