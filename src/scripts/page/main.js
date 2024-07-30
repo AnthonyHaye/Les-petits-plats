@@ -6,12 +6,12 @@ import ListeDeroulante from '../components/listeDeroulante.js';
 import { openCloseDropdown } from '../utils/openCloseDropdown.js';
 import { extractLesMoyens } from '../utils/ExtractLesMoyens.js';
 import { toggleDeleteBtn } from '../utils/toggleDeleteBtn.js';
-import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
-import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
-import { filterRecettesByTagsUstensile } from '../utils/ustensileFilter.js';
-import { combinedFilter } from '../utils/combinedFilter.js';
-import { addTag, removeTag  } from '../components/tagManager.js';
-//import { RecherchePrincipal } from '../utils/RecherchePrincipal.js';
+// import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
+// import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
+// import { filterRecettesByTagsUstensile } from '../utils/ustensileFilter.js';
+// import { combinedFilter } from '../utils/combinedFilter.js';
+// import { addTag, removeTag  } from '../components/tagManager.js';
+import { RecherchePrincipal } from '../utils/RecherchePrincipal.js';
 
 const recetteApi = new Api('src/data/recipes.json');
 export const ToutesRecettes = await recetteApi.get();
@@ -57,28 +57,6 @@ export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
     openCloseDropdown();
 };
 
-
-// export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
-//     const nombreDeRecette = document.querySelector('.nbr_recette');
-//     nombreDeRecette.textContent = `${recettes.length} recettes`;
-
-//     const filterSection = document.querySelector('.contenairFiltre');
-//     filterSection.innerHTML = ''; // Effacer les anciennes listes déroulantes
-
-//     const ustensileListeDeroulante = new ListeDeroulante('Ustensiles', extractLesMoyens(recettes).ustensils);
-//     filterSection.appendChild(ustensileListeDeroulante.createListeDeroulante());
-//     ListeDeroulantes.push(ustensileListeDeroulante);        
-
-//     const appareilsListeDeroulante = new ListeDeroulante('Appareils', extractLesMoyens(recettes).appliances);
-//     filterSection.appendChild(appareilsListeDeroulante.createListeDeroulante());
-//     ListeDeroulantes.push(appareilsListeDeroulante);
-
-//     const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(recettes).ingredients);
-//     filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
-//     ListeDeroulantes.push(ingredientListeDeroulante);
-//     openCloseDropdown();
-// };
-
 export const AfficheRecetteCards = () => {
     const cardSection = document.querySelector('.card_section');
     cardSection.innerHTML = ''; // Effacer les cartes existantes
@@ -100,66 +78,42 @@ const updateNombreDeRecettes = () => {
 const searchInput = document.getElementById('chercheRecette');
 const clearSearchButton = document.getElementById('clearSearchInput');
 
-const RecherchePrincipal = (MotRechercher) => {
-    if (!MotRechercher || MotRechercher.length < 3) {
-        updateRecetteCourante(ToutesRecettes);
-        AfficheListeDeroulanteFiltre(ToutesRecettes);
-        return;
-    }
+// 
 
-    const lowerCaseQuery = MotRechercher.toLowerCase();
-    let filteredRecettes = [];
-
-    for (const recette of ToutesRecettes) {
-        if (recette.name.toLowerCase().includes(lowerCaseQuery) ||
-            recette.description.toLowerCase().includes(lowerCaseQuery)) {
-            filteredRecettes.push(recette);
-            continue;
-        }
-        
-        for (const ingredient of recette.ingredients) {
-            if (ingredient.ingredient.toLowerCase().includes(lowerCaseQuery)) {
-                filteredRecettes.push(recette);
-                break;
-            }
-        }
-    }
-
-    updateRecetteCourante(filteredRecettes);
-    AfficheListeDeroulanteFiltre(filteredRecettes);
-};
-
+// Vérifie si les éléments de recherche et de suppression existent dans le DOM
 if (searchInput && clearSearchButton) {
     console.log("Les éléments ont été trouvés !");
+
+    // Ajoute un écouteur d'événement 'input' sur l'élément de recherche
     searchInput.addEventListener('input', () => {
+        // Appelle la fonction toggleDeleteBtn pour afficher ou cacher le bouton de suppression
         toggleDeleteBtn(searchInput, clearSearchButton);
-        RecherchePrincipal(searchInput.value); // Appele la fonction de recherche 
+
+        // Appelle la fonction RecherchePrincipal avec la valeur actuelle de l'input
+        RecherchePrincipal(searchInput.value); // Exécute la fonction de recherche
     });
 
+    // Ajoute un écouteur d'événement 'click' sur le bouton de suppression
     clearSearchButton.addEventListener('click', () => {
+        // Réinitialise la valeur de l'input de recherche
         searchInput.value = '';
+
+        // Ajoute la classe 'hidden' pour cacher le bouton de suppression
         clearSearchButton.classList.add('hidden');
+
+        // Met à jour les recettes courantes avec toutes les recettes
         updateRecetteCourante(ToutesRecettes);
-        AfficheListeDeroulanteFiltre(ToutesRecettes); // Remettre à jour les listes déroulantes
+
+        // Met à jour les listes déroulantes avec toutes les recettes
+        AfficheListeDeroulanteFiltre(ToutesRecettes); // Réinitialise les listes déroulantes
     });
 } else {
+    // Log une erreur si les éléments de recherche ou de suppression ne sont pas trouvés dans le DOM
     console.error('Les éléments #chercheRecette ou #clearSearchInput sont introuvables.');
 }
 
-// if (searchInput && clearSearchButton) { // Vérifie que les éléments ont été trouvés.
-//     console.log("Les éléments ont été trouvés !");
-//     searchInput.addEventListener('input', () => {
-//         toggleDeleteBtn(searchInput, clearSearchButton);
-//     });
 
-//     clearSearchButton.addEventListener('click', () => {
-//         searchInput.value = '';
-//         clearSearchButton.classList.add('hidden');
-//         // Ajoutez ici toute autre logique nécessaire lors de la suppression de la recherche, par exemple, réinitialiser les résultats de la recherche.
-//     });
-// } else {
-//     console.error('Les éléments #chercheRecette ou #clearSearchInput sont introuvables.');
-// }
+
 
 AfficheListeDeroulanteFiltre();
 AfficheRecetteCards();

@@ -2,7 +2,7 @@
 import { normalString } from "../utils/normalString.js";
 import { addTag } from "./tagManager.js";
 import { filtreListesDeroulante } from "../utils/filtreListesDeroulante.js";
-
+import { toggleDeleteBtn } from "../utils/toggleDeleteBtn.js";
 export default class ListeDeroulante {
     constructor(name, items, type) {
         this.name = name;
@@ -48,7 +48,7 @@ export default class ListeDeroulante {
 
         inputElement.addEventListener('input', () => {
             this.search(normalString(inputElement.value), listeDeroulanteWrapper);
-            this.toggleDeleteBtn(inputElement, clearButton);
+            toggleDeleteBtn(inputElement, clearButton);
         });
 
         clearButton.addEventListener('click', () => {
@@ -70,13 +70,13 @@ export default class ListeDeroulante {
         return listeDeroulanteWrapper;
     }
 
-    toggleDeleteBtn(inputElement, clearButton) {
-        if (inputElement.value.length > 0) {
-            clearButton.classList.remove('hidden');
-        } else {
-            clearButton.classList.add('hidden');
-        }
-    }
+    // toggleDeleteBtn(inputElement, clearButton) {
+    //     if (inputElement.value.length > 0) {
+    //         clearButton.classList.remove('hidden');
+    //     } else {
+    //         clearButton.classList.add('hidden');
+    //     }
+    // }
 
     handleItemClick(item) {
         // Ajoutez l'ingrédient sélectionné comme étiquette
@@ -85,8 +85,8 @@ export default class ListeDeroulante {
         // filterRecettes(); // Définissez cette fonction pour filtrer les recettes
     }
 
-    search(query, wrapper) {
-        this.filteredItems = filtreListesDeroulante(this.items, query);
+    search(recherche, wrapper) {
+        this.filteredItems = filtreListesDeroulante(this.items, recherche);
         this.updateList(wrapper);
     }
     
