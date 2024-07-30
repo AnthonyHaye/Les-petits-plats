@@ -11,6 +11,7 @@ import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
 import { filterRecettesByTagsUstensile } from '../utils/ustensileFilter.js';
 import { combinedFilter } from '../utils/combinedFilter.js';
 import { addTag, removeTag  } from '../components/tagManager.js';
+//import { RecherchePrincipal } from '../utils/RecherchePrincipal.js';
 
 const recetteApi = new Api('src/data/recipes.json');
 export const ToutesRecettes = await recetteApi.get();
@@ -99,20 +100,66 @@ const updateNombreDeRecettes = () => {
 const searchInput = document.getElementById('chercheRecette');
 const clearSearchButton = document.getElementById('clearSearchInput');
 
-if (searchInput && clearSearchButton) { // Vérifie que les éléments ont été trouvés.
+const RecherchePrincipal = (MotRechercher) => {
+    if (!MotRechercher || MotRechercher.length < 3) {
+        updateRecetteCourante(ToutesRecettes);
+        AfficheListeDeroulanteFiltre(ToutesRecettes);
+        return;
+    }
+
+    const lowerCaseQuery = MotRechercher.toLowerCase();
+    let filteredRecettes = [];
+
+    for (const recette of ToutesRecettes) {
+        if (recette.name.toLowerCase().includes(lowerCaseQuery) ||
+            recette.description.toLowerCase().includes(lowerCaseQuery)) {
+            filteredRecettes.push(recette);
+            continue;
+        }
+        
+        for (const ingredient of recette.ingredients) {
+            if (ingredient.ingredient.toLowerCase().includes(lowerCaseQuery)) {
+                filteredRecettes.push(recette);
+                break;
+            }
+        }
+    }
+
+    updateRecetteCourante(filteredRecettes);
+    AfficheListeDeroulanteFiltre(filteredRecettes);
+};
+
+if (searchInput && clearSearchButton) {
     console.log("Les éléments ont été trouvés !");
     searchInput.addEventListener('input', () => {
         toggleDeleteBtn(searchInput, clearSearchButton);
+        RecherchePrincipal(searchInput.value); // Appele la fonction de recherche 
     });
 
     clearSearchButton.addEventListener('click', () => {
         searchInput.value = '';
         clearSearchButton.classList.add('hidden');
-        // Ajoutez ici toute autre logique nécessaire lors de la suppression de la recherche, par exemple, réinitialiser les résultats de la recherche.
+        updateRecetteCourante(ToutesRecettes);
+        AfficheListeDeroulanteFiltre(ToutesRecettes); // Remettre à jour les listes déroulantes
     });
 } else {
     console.error('Les éléments #chercheRecette ou #clearSearchInput sont introuvables.');
 }
+
+// if (searchInput && clearSearchButton) { // Vérifie que les éléments ont été trouvés.
+//     console.log("Les éléments ont été trouvés !");
+//     searchInput.addEventListener('input', () => {
+//         toggleDeleteBtn(searchInput, clearSearchButton);
+//     });
+
+//     clearSearchButton.addEventListener('click', () => {
+//         searchInput.value = '';
+//         clearSearchButton.classList.add('hidden');
+//         // Ajoutez ici toute autre logique nécessaire lors de la suppression de la recherche, par exemple, réinitialiser les résultats de la recherche.
+//     });
+// } else {
+//     console.error('Les éléments #chercheRecette ou #clearSearchInput sont introuvables.');
+// }
 
 AfficheListeDeroulanteFiltre();
 AfficheRecetteCards();
