@@ -10,7 +10,7 @@ import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
 import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
 import { filterRecettesByTagsUstensile } from '../utils/ustensileFilter.js';
 import { combinedFilter } from '../utils/combinedFilter.js';
-import { addTag, removeTag } from '../components/tagManager.js';
+import { addTag, removeTag  } from '../components/tagManager.js';
 
 const recetteApi = new Api('src/data/recipes.json');
 export const ToutesRecettes = await recetteApi.get();
@@ -26,7 +26,12 @@ export const updateRecetteCourante = RecetteFiltre => {
     updateNombreDeRecettes(); // Mettre à jour le nombre de recettes affichées
 };
 
-export const selectedTags = [];
+//  export const selectedTags = [];
+export const selectedTags = {
+    ingredients: [],
+    appareils: [],
+    ustensiles: []
+};
 export const ListeDeroulantes = [];
 export const RecetteARechercher = document.querySelector('#chercheRecette');
 
@@ -37,19 +42,41 @@ export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
     const filterSection = document.querySelector('.contenairFiltre');
     filterSection.innerHTML = ''; // Effacer les anciennes listes déroulantes
 
-    const ustensileListeDeroulante = new ListeDeroulante('Ustensiles', extractLesMoyens(recettes).ustensils);
+    const ustensileListeDeroulante = new ListeDeroulante('Ustensiles', extractLesMoyens(recettes).ustensils, 'ustensiles');
     filterSection.appendChild(ustensileListeDeroulante.createListeDeroulante());
     ListeDeroulantes.push(ustensileListeDeroulante);        
 
-    const appareilsListeDeroulante = new ListeDeroulante('Appareils', extractLesMoyens(recettes).appliances);
+    const appareilsListeDeroulante = new ListeDeroulante('Appareils', extractLesMoyens(recettes).appliances, 'appareils');
     filterSection.appendChild(appareilsListeDeroulante.createListeDeroulante());
     ListeDeroulantes.push(appareilsListeDeroulante);
 
-    const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(recettes).ingredients);
+    const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(recettes).ingredients, 'ingredients');
     filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
     ListeDeroulantes.push(ingredientListeDeroulante);
     openCloseDropdown();
 };
+
+
+// export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
+//     const nombreDeRecette = document.querySelector('.nbr_recette');
+//     nombreDeRecette.textContent = `${recettes.length} recettes`;
+
+//     const filterSection = document.querySelector('.contenairFiltre');
+//     filterSection.innerHTML = ''; // Effacer les anciennes listes déroulantes
+
+//     const ustensileListeDeroulante = new ListeDeroulante('Ustensiles', extractLesMoyens(recettes).ustensils);
+//     filterSection.appendChild(ustensileListeDeroulante.createListeDeroulante());
+//     ListeDeroulantes.push(ustensileListeDeroulante);        
+
+//     const appareilsListeDeroulante = new ListeDeroulante('Appareils', extractLesMoyens(recettes).appliances);
+//     filterSection.appendChild(appareilsListeDeroulante.createListeDeroulante());
+//     ListeDeroulantes.push(appareilsListeDeroulante);
+
+//     const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(recettes).ingredients);
+//     filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
+//     ListeDeroulantes.push(ingredientListeDeroulante);
+//     openCloseDropdown();
+// };
 
 export const AfficheRecetteCards = () => {
     const cardSection = document.querySelector('.card_section');

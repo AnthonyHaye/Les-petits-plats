@@ -1,12 +1,14 @@
+// listeDeroulante.js
 import { normalString } from "../utils/normalString.js";
 import { addTag } from "./tagManager.js";
 import { filtreListesDeroulante } from "../utils/filtreListesDeroulante.js";
 
 export default class ListeDeroulante {
-    constructor(name, items) {
+    constructor(name, items, type) {
         this.name = name;
         this.items = items;
         this.filtreItems = items;
+        this.type = type; // Ajout du type ici
         this.itemListe = null;
     }
 
@@ -34,7 +36,7 @@ export default class ListeDeroulante {
                     </ul>
                 </div>
             </div>
-        `;
+        `; 
 
         const listeDeroulanteWrapper = document.createElement('div');
         listeDeroulanteWrapper.setAttribute('class', 'dropdown-wrapper m-2 relative');
@@ -58,17 +60,7 @@ export default class ListeDeroulante {
         // écouteur de clic sur chaque élément de la liste déroulante
         this.itemListe.forEach(item => {
             item.addEventListener('click', () => {
-                if (this.name === 'Ingrédients') {  // Vérification pour les ingrédients
-                    this.handleItemClick(item.textContent);
-                }
-                console.log("Un élément a été cliqué : " + item.textContent);
-                if (this.name === 'Appareils') {  // Vérification pour les appareils
-                    this.handleItemClick(item.textContent);
-                }
-                console.log("Un élément a été cliqué : " + item.textContent);
-                if (this.name === 'Ustensiles') {  // Vérification pour les ustensiles
-                    this.handleItemClick(item.textContent);
-                }
+                this.handleItemClick(item.textContent);
                 console.log("Un élément a été cliqué : " + item.textContent);
             });
         });
@@ -88,26 +80,16 @@ export default class ListeDeroulante {
 
     handleItemClick(item) {
         // Ajoutez l'ingrédient sélectionné comme étiquette
-        addTag(item);
+        addTag(item, this.type); // Assurez-vous que le type est correctement passé
         // Filtrez les recettes en fonction des étiquettes
         // filterRecettes(); // Définissez cette fonction pour filtrer les recettes
     }
 
     search(query, wrapper) {
-        if (this.name === 'Ingrédients') {  // Vérification pour les ingrédients
-            this.filteredItems = filtreListesDeroulante(this.items, query);
-            this.updateList(wrapper);
-        }
-        if (this.name === 'Appareils') {  // Vérification pour les ingrédients
-            this.filteredItems = filtreListesDeroulante(this.items, query);
-            this.updateList(wrapper);
-        }
-        if (this.name === 'Ustensiles') {  // Vérification pour les ingrédients
-            this.filteredItems = filtreListesDeroulante(this.items, query);
-            this.updateList(wrapper);
-        }
-    }   
-
+        this.filteredItems = filtreListesDeroulante(this.items, query);
+        this.updateList(wrapper);
+    }
+    
     updateList(wrapper) {
         const listContainer = wrapper.querySelector('.dropdown_content_list');
         listContainer.innerHTML = this.filteredItems.map(item => `<li class="p-1 hover:bg-jaune cursor-pointer">${item}</li>`).join('');
@@ -119,7 +101,6 @@ export default class ListeDeroulante {
             });
         });
     }
-    
 
     tagHandler(inputElement) {
         // Ajoutez ici votre logique de gestion des tags

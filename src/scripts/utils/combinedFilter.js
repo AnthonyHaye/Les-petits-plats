@@ -3,7 +3,10 @@ import { filterRecettesByTagsAppareil } from './appareilFilter.js';
 import { filterRecettesByTagsUstensile } from './ustensileFilter.js';
 
 export function combinedFilter(tags, recettes) {
+
+        console.log('Tags:', tags);
     let results = recettes;
+
 
     // Filtrer par ingrédients
     if (tags.ingredients.length > 0) {
