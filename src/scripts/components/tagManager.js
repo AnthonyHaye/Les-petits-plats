@@ -1,5 +1,6 @@
 import { selectedTags, updateRecetteCourante, ToutesRecettes, AfficheListeDeroulanteFiltre } from '../page/main.js';
 import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
+import { openCloseDropdown } from '../utils/openCloseDropdown.js';
 
 export const addTag = tag => {
     if (!selectedTags.includes(tag)) {
@@ -51,4 +52,7 @@ const filterRecettes = () => {
     // Mise à jour des recettes affichées avec les recettes filtrées
     updateRecetteCourante(filteredRecettes);
     AfficheListeDeroulanteFiltre(filteredRecettes); // Mise à jour des listes déroulantes
+    
 };
+
+

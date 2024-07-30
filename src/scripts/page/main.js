@@ -46,7 +46,7 @@ export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
     filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
     ListeDeroulantes.push(ingredientListeDeroulante);
     console.log(ingredientListeDeroulante);
-   // openCloseDropdown();
+   openCloseDropdown();
 };
 
 export const AfficheRecetteCards = () => {
@@ -87,4 +87,3 @@ if (searchInput && clearSearchButton) { // Vérifie que les éléments ont été
 
 AfficheListeDeroulanteFiltre();
 AfficheRecetteCards();
-openCloseDropdown();
