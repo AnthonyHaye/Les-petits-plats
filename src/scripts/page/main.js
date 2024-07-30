@@ -1,11 +1,15 @@
+console.log('Bonjour Anthony Haye');
 import Api from '../api/api.js';
 import Recette from '../models/Recette.js';
 import RecetteCard from '../components/RecetteCard.js';
 import ListeDeroulante from '../components/listeDeroulante.js';
 import { openCloseDropdown } from '../utils/openCloseDropdown.js';
-import { extractLesMoyens } from '../utils/extractLesMoyens.js';
+import { extractLesMoyens } from '../utils/ExtractLesMoyens.js';
 import { toggleDeleteBtn } from '../utils/toggleDeleteBtn.js';
-import { AlgoRechercheBoucle, AlgoRechercheFonctionnel } from '../utils/AlgoRecherche.js';
+import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
+import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
+import { filterRecettesByTagsUstensile } from '../utils/ustensileFilter.js';
+import { combinedFilter } from '../utils/combinedFilter.js';
 import { addTag, removeTag } from '../components/tagManager.js';
 
 const recetteApi = new Api('src/data/recipes.json');
@@ -26,13 +30,12 @@ export const selectedTags = [];
 export const ListeDeroulantes = [];
 export const RecetteARechercher = document.querySelector('#chercheRecette');
 
-// Modifiez cette fonction pour accepter un paramètre `recettes`
 export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
     const nombreDeRecette = document.querySelector('.nbr_recette');
     nombreDeRecette.textContent = `${recettes.length} recettes`;
 
     const filterSection = document.querySelector('.contenairFiltre');
-    filterSection.innerHTML = ''; // Efface les anciennes listes déroulantes
+    filterSection.innerHTML = ''; // Effacer les anciennes listes déroulantes
 
     const ustensileListeDeroulante = new ListeDeroulante('Ustensiles', extractLesMoyens(recettes).ustensils);
     filterSection.appendChild(ustensileListeDeroulante.createListeDeroulante());
@@ -45,8 +48,7 @@ export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
     const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(recettes).ingredients);
     filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
     ListeDeroulantes.push(ingredientListeDeroulante);
-    console.log(ingredientListeDeroulante);
-   openCloseDropdown();
+    openCloseDropdown();
 };
 
 export const AfficheRecetteCards = () => {
@@ -87,3 +89,4 @@ if (searchInput && clearSearchButton) { // Vérifie que les éléments ont été
 
 AfficheListeDeroulanteFiltre();
 AfficheRecetteCards();
+

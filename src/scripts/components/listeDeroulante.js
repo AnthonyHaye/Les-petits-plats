@@ -62,6 +62,14 @@ export default class ListeDeroulante {
                     this.handleItemClick(item.textContent);
                 }
                 console.log("Un élément a été cliqué : " + item.textContent);
+                if (this.name === 'Appareils') {  // Vérification pour les appareils
+                    this.handleItemClick(item.textContent);
+                }
+                console.log("Un élément a été cliqué : " + item.textContent);
+                if (this.name === 'Ustensiles') {  // Vérification pour les ustensiles
+                    this.handleItemClick(item.textContent);
+                }
+                console.log("Un élément a été cliqué : " + item.textContent);
             });
         });
 
@@ -90,7 +98,27 @@ export default class ListeDeroulante {
             this.filteredItems = filtreListesDeroulante(this.items, query);
             this.updateList(wrapper);
         }
+        if (this.name === 'Appareils') {  // Vérification pour les ingrédients
+            this.filteredItems = filtreListesDeroulante(this.items, query);
+            this.updateList(wrapper);
+        }
+        if (this.name === 'Ustensiles') {  // Vérification pour les ingrédients
+            this.filteredItems = filtreListesDeroulante(this.items, query);
+            this.updateList(wrapper);
+        }
     }   
+
+    updateList(wrapper) {
+        const listContainer = wrapper.querySelector('.dropdown_content_list');
+        listContainer.innerHTML = this.filteredItems.map(item => `<li class="p-1 hover:bg-jaune cursor-pointer">${item}</li>`).join('');
+        this.itemListe = listContainer.querySelectorAll('li');
+        this.itemListe.forEach(item => {
+            item.addEventListener('click', () => {
+                this.handleItemClick(item.textContent);
+                console.log("Un élément a été cliqué : " + item.textContent);
+            });
+        });
+    }
     
 
     tagHandler(inputElement) {

@@ -1,5 +1,6 @@
 import { selectedTags, updateRecetteCourante, ToutesRecettes, AfficheListeDeroulanteFiltre } from '../page/main.js';
 import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
+import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
 
 export const addTag = tag => {
     if (!selectedTags.includes(tag)) {
@@ -41,14 +42,15 @@ const filterRecettes = () => {
     if (selectedTags.length === 0) {
         // Mise à jour des recettes affichées avec toutes les recettes disponibles
         updateRecetteCourante(ToutesRecettes);
-        AfficheListeDeroulanteFiltre(ToutesRecettes); // Mise à jour des listes déroulantes
+        AfficheListeDeroulanteFiltre(ToutesRecettes); // Mettre à jour les listes déroulantes
         return; // Sortie de la fonction car aucune filtration n'est nécessaire
     }
 
-    // Utilisation de la nouvelle fonction de recherche pour filtrer les recettes
-    const filteredRecettes = filterRecettesByTagsIngredient(selectedTags, ToutesRecettes);
+    // Utilisation des nouvelles fonctions de recherche pour filtrer les recettes
+    const filteredRecettesByIngredient = filterRecettesByTagsIngredient(selectedTags, ToutesRecettes);
+    const filteredRecettes = filterRecettesByTagsAppareil(selectedTags, filteredRecettesByIngredient);
 
     // Mise à jour des recettes affichées avec les recettes filtrées
     updateRecetteCourante(filteredRecettes);
-    AfficheListeDeroulanteFiltre(filteredRecettes); // Mise à jour des listes déroulantes
+    AfficheListeDeroulanteFiltre(filteredRecettes); // Mettre à jour les listes déroulantes
 };
