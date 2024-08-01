@@ -12,6 +12,8 @@ import { toggleDeleteBtn } from '../utils/toggleDeleteBtn.js';
 // import { combinedFilter } from '../utils/combinedFilter.js';
 // import { addTag, removeTag  } from '../components/tagManager.js';
 import { RecherchePrincipal } from '../utils/RecherchePrincipal.js';
+import { combinedFilter } from '../utils/combinedFilter.js';
+import { resetTags } from '../components/tagManager.js';
 
 const recetteApi = new Api('src/data/recipes.json');
 export const ToutesRecettes = await recetteApi.get();
@@ -74,6 +76,13 @@ const updateNombreDeRecettes = () => {
     nombreDeRecette.textContent = `${RecetteCourante.length} recettes`;
 };
 
+export const RecetteFiltrees = [...ToutesRecettes]; // Ajoutez cette ligne
+
+// Ajoutez cette fonction pour réinitialiser les recettes filtrées
+export const resetRecetteFiltrees = () => {
+    RecetteFiltrees.splice(0, RecetteFiltrees.length, ...ToutesRecettes);
+};
+
 // Ajout de la fonctionnalité de suppression pour l'input de recherche dans le header
 const searchInput = document.getElementById('chercheRecette');
 const clearSearchButton = document.getElementById('clearSearchInput');
@@ -101,6 +110,12 @@ if (searchInput && clearSearchButton) {
         // Ajoute la classe 'hidden' pour cacher le bouton de suppression
         clearSearchButton.classList.add('hidden');
 
+        // Réinitialise tous les tags
+        resetTags();
+
+        // Réinitialise les recettes filtrées
+        resetRecetteFiltrees(); 
+
         // Met à jour les recettes courantes avec toutes les recettes
         updateRecetteCourante(ToutesRecettes);
 
@@ -115,6 +130,6 @@ if (searchInput && clearSearchButton) {
 
 
 
-AfficheListeDeroulanteFiltre();
+AfficheListeDeroulanteFiltre(RecetteFiltrees);
 AfficheRecetteCards();
 

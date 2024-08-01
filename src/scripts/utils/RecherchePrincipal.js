@@ -1,5 +1,5 @@
 // Importation des fonctions nécessaires depuis le fichier 'main.js'
-import { updateRecetteCourante, ToutesRecettes, AfficheListeDeroulanteFiltre } from '../page/main.js';
+import { updateRecetteCourante, ToutesRecettes, AfficheListeDeroulanteFiltre, RecetteFiltrees } from '../page/main.js';
 // Importation de la fonction normalString
 import { normalString } from '../utils/normalString.js';
 
@@ -18,8 +18,8 @@ export const RecherchePrincipal = (MotRechercher) => {
     // Normalise le mot de recherche pour une comparaison insensible à la casse et aux accents
     const normalizedQuery = normalString(MotRechercher);
 
-    // Initialise un tableau pour stocker les recettes filtrées
-    let filteredRecettes = [];
+    // Vide le tableau des recettes filtrées
+    RecetteFiltrees.length = 0; 
 
     // Parcourt toutes les recettes
     for (const recette of ToutesRecettes) {
@@ -31,7 +31,7 @@ export const RecherchePrincipal = (MotRechercher) => {
         if (normalizedRecetteName.includes(normalizedQuery) ||
             normalizedRecetteDescription.includes(normalizedQuery)) {
             // Si oui, ajoute la recette aux résultats filtrés
-            filteredRecettes.push(recette);
+            RecetteFiltrees.push(recette);
             // Passe à la recette suivante
             continue;
         }
@@ -43,7 +43,7 @@ export const RecherchePrincipal = (MotRechercher) => {
             // Vérifie si l'ingrédient contient le mot de recherche normalisé
             if (normalizedIngredient.includes(normalizedQuery)) {
                 // Si oui, ajoute la recette aux résultats filtrés
-                filteredRecettes.push(recette);
+                RecetteFiltrees.push(recette);
                 // Sort de la boucle des ingrédients pour cette recette
                 break;
             }
@@ -51,8 +51,8 @@ export const RecherchePrincipal = (MotRechercher) => {
     }
 
     // Met à jour les recettes courantes avec les recettes filtrées
-    updateRecetteCourante(filteredRecettes);
+    updateRecetteCourante(RecetteFiltrees);
     // Met à jour les listes déroulantes avec les recettes filtrées
-    AfficheListeDeroulanteFiltre(filteredRecettes);
+    AfficheListeDeroulanteFiltre(RecetteFiltrees);
 };
 

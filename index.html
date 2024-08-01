@@ -12,7 +12,7 @@
 </head>
 <body class="font-manrope bg-gris-light">
   <header class=" relative bg-cover bg-center bg-banner h-96  "
-    style="background-image: url('src/img/utils/banner.webp');">
+    style="background-image: url('src/img/utils/banner.webp');"  aria-label="Bannière du site">
     <div class="relative z-10 flex flex-col items-center justify-center h-full text-white">
       <div class="absolute top-4 left-4">
         <img src="src/img/utils/logo.svg" alt="Les Petits Plats" class="w-48 h-auto">
@@ -26,28 +26,28 @@
           <div
             class="m-2 flex flex-row justify-between items-center  bg-white rounded-xl shadow-lg overflow-hidden relative border-solid hover:border-2 hover:border-jaune">
             <input type="text" id="chercheRecette" placeholder="Rechercher une recette, un ingrédient, ..."
-              class="text-base m-1 p-1 w-5/6  text-black outline-none ">
+              class="text-base m-1 p-1 w-5/6  text-black outline-none "  aria-label="Champ de recherche de recette">
   
-            <button id="clearSearchInput" class="p-2 text-black  hover:text-jaune hidden  ">
+            <button id="clearSearchInput" class="p-2 text-black  hover:text-jaune hidden  " aria-label="Effacer la recherche">
               <span class="fas fa-times md:text-2xl "></span>
             </button>
             <label for="chercheRecette" tabindex="0" aria-label="Recherche recette"></label>
             <button
-              class="p-3 bg-gray-800 text-white flex items-center justify-center hover:bg-jaune hover:text-noir rounded-r-lg   "
+              class="p-3 bg-gray-800 text-white flex items-center justify-center hover:bg-jaune hover:text-noir rounded-r-lg"  aria-label="Bouton de recherche"
               aria-label="Bouton de recherche">
-              <i class="fas fa-search md:text-2xl "></i>
+              <i class="fas fa-search md:text-2xl " aria-hidden="true"></i>
             </button>
           </div>
         </div>
       </div>
     </div>
   </header>
-  <main class="flex flex-col  w-full min-h-full relative ">
-    <div class="filter_section flex flex-col items-center  w-full  relative z-20 md:flex-row-reverse"> <!-- relative pour positionnement z-10 pour la liste déroulante -->
-      <p class="nbr_recette font-bold text-xl font-manrope m-2 "></p>
-      <div class="contenairFiltre flex flex-col justify-between"></div>      
+  <main class="flex flex-col  w-full min-h-full relative " aria-label="Contenu principal">
+    <div class="filter_section flex flex-col items-center  w-full  relative z-20 md:flex-row-reverse" aria-label="Section de filtrage"> <!-- relative pour positionnement z-10 pour la liste déroulante -->
+      <p class="nbr_recette font-bold text-xl font-manrope m-2 " aria-live="polite"></p>
+      <div class="contenairFiltre flex flex-col justify-between" aria-label="Filtres"></div>      
     </div>
-    <div class="tag_section w-full flex flex-col-reverse items-center min-h-32 bg-blue-300"></div>
+    <div class="tag_section w-full flex flex-col-reverse items-center  " aria-label="Section des tags"></div>
     
     <!-- <div class="card_section flex flex-col md:grid gap-4 grid-cols-3 grid-rows-3 justify-items-center bg-gris-light relative z-10"></div> relative et z-0 pour que les cartes soient derrière la liste déroulante --> 
      <div class="card_section flex flex-col items-center relative z-10"></div>

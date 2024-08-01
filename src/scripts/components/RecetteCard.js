@@ -17,13 +17,13 @@ export default class RecetteCard {
                 : ''
             }
                 <div class="h-1/2 flex items-center justify-center overflow-hidden">
-                    <img src="./src/img/recette/recette/${this.recette.image}" alt="Image de ${this.recette.name}" class="object-cover h-full w-full">
+                    <img src="./src/img/recette/recette/${this.recette.image}" alt="Image de ${this.recette.name}" class="object-cover h-full w-full"  aria-describedby="recette-title-${this.recette.id}">
                 </div>
                 <div class="h-1/2 p-4 overflow-y-auto">
                     <h2 id="recette-title-${this.recette.id}" class="text-noir text-2xl font-anton mb-2 ">${this.recette.name}</h2>
                     <div class="card_infos_instructions mb-2">
                         <h3 class="text-lg font-manrope uppercase font-gris-light tracking-wider">Recette</h3>
-                        <p class="text-sm font-manrope">${this.recette.description}</p>
+                        <p class="text-sm font-manrope" aria-labelledby="recette-title-${this.recette.id}">${this.recette.description}</p>
                     </div>
                     <div class="card_infos_ingredients">
                         <h3 class="text-lg font-manrope uppercase font-gris tracking-wider">Ingrédients</h3>
@@ -32,7 +32,7 @@ export default class RecetteCard {
                                 ${this.recette.ingredients.map(ingredient => {
                 if (ingredient.quantity && ingredient.unit) {
                     return `
-                                    <li>
+                                    <li aria-label="${ingredient.ingredient}: ${ingredient.quantity} ${ingredient.unit}">
                                         <div class="flex flex-col">
                                             <span class="font-bold">${ingredient.ingredient}</span>
                                             <span>${ingredient.quantity} ${ingredient.unit}</span>
@@ -41,7 +41,7 @@ export default class RecetteCard {
                                 `;
                 } else {
                     return `
-                                    <li>
+                                    <li aria-label="${ingredient.ingredient}">
                                         <span class="font-bold">${ingredient.ingredient}</span>
                                     </li>
                                 `;
