@@ -6,7 +6,7 @@ export default class RecetteCard {
     createCard() {
         const cardSection = document.querySelector('.card_section');
         const cardContent = `
-            <article class="card relative w-400 h-400 rounded-lg overflow-hidden bg-white m-4" data-id=${this.recette.id} aria-labelledby="recette-title-${this.recette.id}">
+            <article class="card relative w-400 h-400 rounded-lg overflow-hidden bg-white m-4 lg:w-11/12 h-600" data-id=${this.recette.id} aria-labelledby="recette-title-${this.recette.id}">
                 ${this.recette.time > 0
                 ? `<p class="card_time absolute top-5 right-5 px-2.5 py-1.5 rounded-lg text-[0.8rem] font-manrope bg-jaune" aria-label="Temps de préparation">
                         ${this.recette.time > 60

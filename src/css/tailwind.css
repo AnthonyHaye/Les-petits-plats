@@ -18,12 +18,16 @@
     height: 400px;
 }
 
+.h-600 {
+  height: 600px;
+}
+
 
 .Steeve{
   @apply flex-grow p-3 text-black outline-none;
 }
 
-.bord{
+*{
   @apply border-solid border-black border-2;
 }
 
