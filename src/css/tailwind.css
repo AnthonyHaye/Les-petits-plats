@@ -22,13 +22,17 @@
   height: 600px;
 }
 
+.h-730 {
+  height: 730px;
+}
+
 
 .Steeve{
   @apply flex-grow p-3 text-black outline-none;
 }
 
-*{
+/* *{
   @apply border-solid border-black border-2;
-}
+} */
 
 
