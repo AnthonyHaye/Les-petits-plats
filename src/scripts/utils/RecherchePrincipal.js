@@ -55,4 +55,3 @@ export const RecherchePrincipal = (MotRechercher) => {
     // Met à jour les listes déroulantes avec les recettes filtrées
     AfficheListeDeroulanteFiltre(RecetteFiltrees);
 };
-
