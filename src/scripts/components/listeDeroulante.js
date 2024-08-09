@@ -72,9 +72,8 @@ export default class ListeDeroulante {
   
     handleItemClick(item) {
         // Ajoutez l'ingrédient sélectionné comme étiquette
-        addTag(item, this.type); // Assurez-vous que le type est correctement passé
+        addTag(item, this.type); 
         // Filtrez les recettes en fonction des étiquettes
-        // filterRecettes(); // Définissez cette fonction pour filtrer les recettes
     }
 
     search(recherche, wrapper) {

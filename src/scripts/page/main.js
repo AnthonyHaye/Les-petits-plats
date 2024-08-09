@@ -76,9 +76,9 @@ const updateNombreDeRecettes = () => {
     nombreDeRecette.textContent = `${RecetteCourante.length} recettes`;
 };
 
-export const RecetteFiltrees = [...ToutesRecettes]; // Ajoutez cette ligne
+export const RecetteFiltrees = [...ToutesRecettes]; 
 
-// Ajoutez cette fonction pour réinitialiser les recettes filtrées
+// fonction pour réinitialiser les recettes filtrées
 export const resetRecetteFiltrees = () => {
     RecetteFiltrees.splice(0, RecetteFiltrees.length, ...ToutesRecettes);
 };

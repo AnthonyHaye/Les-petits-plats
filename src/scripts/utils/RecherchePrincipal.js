@@ -30,8 +30,12 @@ export const RecherchePrincipal = (query) => {
         return normalizedTitle.includes(lowerCaseQuery) || normalizedDescription.includes(lowerCaseQuery) || ingredientMatch;
     });
 
+    // Assign filteredRecettes à RecetteFiltrees
+    RecetteFiltrees.length = 0; // 
+    RecetteFiltrees.push(...filteredRecettes);
+
     // Met à jour les recettes affichées avec les recettes filtrées
-    updateRecetteCourante(filteredRecettes);
-    AfficheListeDeroulanteFiltre(filteredRecettes);
+    updateRecetteCourante(RecetteFiltrees);
+    AfficheListeDeroulanteFiltre(RecetteFiltrees);
 };
 

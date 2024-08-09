@@ -1,27 +1,15 @@
-// utils/ingredientFilter.js
+// Importation de la fonction normalString
+import { normalString } from '../utils/normalString.js';
 
+// Fonction de filtrage des recettes par tags d'ingrédients en utilisant une approche fonctionnelle
 export function filterRecettesByTagsIngredient(tags, recettes) {
-        let results = [];
-        for (const recette of recettes) {
-            let containsAllTags = true;
-            for (const tag of tags) {
-                let containsTag = false;
-                for (const ingredient of recette.ingredients) {
-                    if (ingredient.ingredient.toLowerCase().includes(tag.toLowerCase())) {
-                        containsTag = true;
-                        break;
-                    }
-                }
-                if (!containsTag) {
-                    containsAllTags = false;
-                    break;
-                }
-            }
-            if (containsAllTags) {
-                results.push(recette);
-            }
-        }
-        return results;
-        console.log("tu es passé dans le filtre pour ingrédient")
-    }
-    
+    return recettes.filter(recette => 
+        // Vérifie si chaque tag est inclus dans les ingrédients de la recette
+        tags.every(tag => 
+            recette.ingredients.some(ingredient => 
+                normalString(ingredient.ingredient).includes(normalString(tag))
+            )
+        )
+    );
+}
+
