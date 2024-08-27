@@ -3,23 +3,16 @@ import { selectedTags, updateRecetteCourante, ToutesRecettes , RecetteFiltrees, 
 import { combinedFilter } from '../utils/combinedFilter.js';
 
 // Fonction pour ajouter un tag
-export const addTag = (tag, type) => {
-    console.log(`Adding tag: ${tag}, Type: ${type}`);
-    
+export const addTag = (tag, type) => {    
     if (!selectedTags[type].includes(tag)) {
         selectedTags[type].push(tag);
         renderTags();
         filterRecettes();
-    } else {
-        console.log(`Tag ${tag} already exists in ${type}`);
-    }
+    } 
 };
 
 // Fonction pour supprimer un tag
-export const removeTag = (tag, type) => {
-    // Affiche dans la console le tag et le type à supprimer
-    console.log(`Removing tag: ${tag}, Type: ${type}`);
-    
+export const removeTag = (tag, type) => {    
     // Trouve l'index du tag dans le tableau correspondant au type
     const index = selectedTags[type].indexOf(tag);
 
@@ -44,11 +37,7 @@ export const removeTag = (tag, type) => {
                 clearSearchButton.classList.add('hidden');
             }
         }        
-    } 
-    else {
-        // Si le tag n'est pas trouvé, affiche un message dans la console
-        console.log(`Tag ${tag} not found in ${type}`);
-    }
+    }     
 };
 
 // Fonction de suppression de tous les tags si le boutton supprimé de la barre de recherche est cliqué
@@ -83,8 +72,6 @@ const renderTags = () => {
 
 // Fonction pour filtrer les recettes en fonction des tags sélectionnés
 const filterRecettes = () => {
-    console.log('Filtering recipes with tags:', selectedTags);
-
     // Si aucun tag n'est sélectionné, affiche toutes les recettes
     if (Object.values(selectedTags).every(tags => tags.length === 0)) {
         // Mise à jour des recettes affichées avec toutes les recettes disponibles

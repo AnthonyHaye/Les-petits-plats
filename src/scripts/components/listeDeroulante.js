@@ -8,12 +8,11 @@ export default class ListeDeroulante {
         this.name = name;
         this.items = items;
         this.filtreItems = items;
-        this.type = type; // Ajout du type ici
+        this.type = type; 
         this.itemListe = null;
     }
 
     createListeDeroulante() {
-        console.log("Liste Deroulante Créée");
         const listeDeroulanteContenu = `
             <div class="listeDeroulante w-52 m-1 bg-white rounded-lg relative" role="listbox" aria-labelledby="dropdown-header-${this.name}">
                 <div class="dropdown-header flex items-center justify-between p-2 hover:bg-jaune cursor-pointer rounded-t-lg" id="dropdown-header-${this.name}" role="button" aria-expanded="false" aria-controls="dropdown-content-${this.name}" >
@@ -61,12 +60,8 @@ export default class ListeDeroulante {
         this.itemListe.forEach(item => {
             item.addEventListener('click', () => {
                 this.handleItemClick(item.textContent);
-                console.log("Un élément a été cliqué : " + item.textContent);
             });
-        });
-
-        this.tagHandler(inputElement);
-
+        });      
         return listeDeroulanteWrapper;
     }
   
@@ -100,13 +95,7 @@ export default class ListeDeroulante {
         this.itemListe.forEach(item => {
             item.addEventListener('click', () => {
                 this.handleItemClick(item.textContent);
-                console.log("Un élément a été cliqué : " + item.textContent);
             });
         });
-    }
-    
-
-    tagHandler(inputElement) {
-        // Ajoutez ici votre logique de gestion des tags
-    }
+    }   
 }

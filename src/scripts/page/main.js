@@ -1,4 +1,3 @@
-console.log('Bonjour Anthony Haye');
 import Api from '../api/api.js';
 import Recette from '../models/Recette.js';
 import RecetteCard from '../components/RecetteCard.js';
@@ -6,18 +5,11 @@ import ListeDeroulante from '../components/listeDeroulante.js';
 import { openCloseDropdown } from '../utils/openCloseDropdown.js';
 import { extractLesMoyens } from '../utils/ExtractLesMoyens.js';
 import { toggleDeleteBtn } from '../utils/toggleDeleteBtn.js';
-// import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
-// import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
-// import { filterRecettesByTagsUstensile } from '../utils/ustensileFilter.js';
-// import { combinedFilter } from '../utils/combinedFilter.js';
-// import { addTag, removeTag  } from '../components/tagManager.js';
 import { RecherchePrincipal } from '../utils/RecherchePrincipal.js';
-import { combinedFilter } from '../utils/combinedFilter.js';
 import { resetTags } from '../components/tagManager.js';
 
 const recetteApi = new Api('src/data/recipes.json');
 export const ToutesRecettes = await recetteApi.get();
-console.log(ToutesRecettes);
 
 // Copie du tableau de recettes pour pouvoir filtrer les recettes en cours
 export const RecetteCourante = [...ToutesRecettes];
@@ -91,8 +83,6 @@ const clearSearchButton = document.getElementById('clearSearchInput');
 
 // Vérifie si les éléments de recherche et de suppression existent dans le DOM
 if (searchInput && clearSearchButton) {
-    console.log("Les éléments ont été trouvés !");
-
     // Ajoute un écouteur d'événement 'input' sur l'élément de recherche
     searchInput.addEventListener('input', () => {
         // Appelle la fonction toggleDeleteBtn pour afficher ou cacher le bouton de suppression
