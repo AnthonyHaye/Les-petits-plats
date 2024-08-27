@@ -1,3 +1,4 @@
+import { normalString } from '../utils/normalString.js';
 // Fonction de filtrage des recettes par tags d'appareils
 export function filterRecettesByTagsAppareil(tags, recettes) {
     let results = [];
@@ -7,7 +8,7 @@ export function filterRecettesByTagsAppareil(tags, recettes) {
         // Vérification de chaque tag dans la liste des tags sélectionnés
         for (const tag of tags) {
             // Vérification directe avec 'includes' car l'appareil est une chaîne de caractères unique
-            if (!recette.appliance.toLowerCase().includes(tag.toLowerCase())) {
+            if (!normalString(recette.appliance).includes(normalString(tag))) {
                 containsAllTags = false;
                 break;
             }

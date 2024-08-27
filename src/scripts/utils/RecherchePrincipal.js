@@ -3,15 +3,14 @@ import { updateRecetteCourante, ToutesRecettes, AfficheListeDeroulanteFiltre, Re
 // Importation de la fonction normalString
 import { normalString } from '../utils/normalString.js';
 
-// Exportation de la fonction 'RecherchePrincipal'
+//
 export const RecherchePrincipal = (MotRechercher) => {
     // Si aucun mot de recherche n'est fourni ou si la longueur du mot de recherche est inférieure à 3
     if (!MotRechercher || MotRechercher.length < 3) {
         // Met à jour les recettes courantes avec toutes les recettes
         updateRecetteCourante(ToutesRecettes);
-        // Met à jour les listes déroulantes avec toutes les recettes
-        AfficheListeDeroulanteFiltre(ToutesRecettes);
-        // Sort de la fonction
+        // Met à jour les listes déroulantes 
+        AfficheListeDeroulanteFiltre(ToutesRecettes);        
         return;
     }
 

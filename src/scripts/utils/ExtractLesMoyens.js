@@ -1,3 +1,4 @@
+import { normalString } from "./normalString.js";
 export const extractLesMoyens = recet => {
         const LesMoyens = {
             ingredients: new Set(),
@@ -5,7 +6,7 @@ export const extractLesMoyens = recet => {
             ustensils: new Set()
         };
     
-        const addMoyenADisposer = (MoyenADisposer, value) => MoyenADisposer.add(value.toLowerCase());
+        const addMoyenADisposer = (MoyenADisposer, value) => MoyenADisposer.add(normalString(value));
     
         recet.forEach(recette => {
             recette.ingredients.forEach(ingredient => addMoyenADisposer(LesMoyens.ingredients, ingredient.ingredient));
