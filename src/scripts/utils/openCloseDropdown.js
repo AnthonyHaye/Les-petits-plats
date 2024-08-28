@@ -42,7 +42,6 @@ export const openCloseDropdown = () => {
         focusableElements.forEach(element => element.setAttribute('tabindex', '-1')) : 
         focusableElements.forEach(element => element.setAttribute('tabindex', '0'));
     };
-
     dropdownButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             closeOtherDropdowns(btn);  

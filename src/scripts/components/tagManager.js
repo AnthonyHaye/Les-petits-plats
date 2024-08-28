@@ -1,4 +1,4 @@
-import { selectedTags, updateRecetteCourante, ToutesRecettes , RecetteFiltrees, AfficheListeDeroulanteFiltre, resetRecetteFiltrees } from '../page/main.js';
+import { selectedTags, updateCurrentRecipe, AllRecipes , FilterRecipes, DisplayFilteredDropdownList, ResetFilterRecipe } from '../page/main.js';
 import { combinedFilter } from '../utils/combinedFilter.js';
 
 // Function to update the dropdown menu based on selected tags
@@ -45,7 +45,7 @@ export const removeTag = (tag, type) => {
     }     
 };
 
-// Met à jour la visibilité de toutes les listes déroulantes pour refléter l'état actuel des tags sélectionnés
+// Updates the visibility of all the drop -down lists to reflect the current state of the selected tags
 const updateDropdownsVisibility = () => {
     ['ingredients', 'appareils', 'ustensiles'].forEach(type => updateDropdownVisibilityForTags(type));
 };
@@ -59,7 +59,6 @@ export const resetTags = () => {
     filterRecettes();
     updateDropdownsVisibility();
 };
-
 
 // Function to display tags
 const renderTags = () => {
@@ -84,12 +83,12 @@ const renderTags = () => {
 // Function to filter the recipes according to the selected tags
 const filterRecettes = () => {
     if (Object.values(selectedTags).every(tags => tags.length === 0)) {
-        resetRecetteFiltrees();
-        updateRecetteCourante(ToutesRecettes);
-        AfficheListeDeroulanteFiltre(ToutesRecettes); 
+        ResetFilterRecipe();
+        updateCurrentRecipe(AllRecipes);
+        DisplayFilteredDropdownList(AllRecipes); 
         return; 
     }
-    const filteredRecettes = combinedFilter(selectedTags, RecetteFiltrees);
-    updateRecetteCourante(filteredRecettes);
-    AfficheListeDeroulanteFiltre(filteredRecettes); 
+    const filteredRecettes = combinedFilter(selectedTags, FilterRecipes);
+    updateCurrentRecipe(filteredRecettes);
+    DisplayFilteredDropdownList(filteredRecettes); 
 };

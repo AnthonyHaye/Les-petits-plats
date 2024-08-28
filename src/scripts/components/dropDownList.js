@@ -1,11 +1,9 @@
-// listeDeroulante.js
-
 import { normalString } from "../utils/normalString.js";
 import { addTag } from "./tagManager.js";
-import { filtreListesDeroulante } from "../utils/filtreListesDeroulante.js";
+import { filterDropDownLists } from "../utils/FilterDropDownLists.js";
 import { toggleDeleteBtn } from "../utils/toggleDeleteBtn.js";
 
-export default class ListeDeroulante {
+export default class DropDownListClass {
     constructor(name, items, type) {
         this.name = name;
         this.items = items;
@@ -15,8 +13,8 @@ export default class ListeDeroulante {
     }
 
     createListeDeroulante() {
-        const listeDeroulanteContenu = `
-            <div class="listeDeroulante w-52 m-1 bg-white rounded-lg relative" role="listbox" aria-labelledby="dropdown-header-${this.name}">
+        const DropDownContent = `
+            <div class="DropDownListClass w-52 m-1 bg-white rounded-lg relative" role="listbox" aria-labelledby="dropdown-header-${this.name}">
                 <div class="dropdown-header flex items-center justify-between p-2 hover:bg-jaune cursor-pointer rounded-t-lg" id="dropdown-header-${this.name}" role="button" aria-expanded="false" aria-controls="dropdown-content-${this.name}">
                     <span class="dropdown-title pr-2">${this.name}</span>
                     <button type="button" class="dropdown_btn text-black" aria-label="Toggle ${this.name} list">
@@ -39,23 +37,23 @@ export default class ListeDeroulante {
             </div>
         `; 
 
-        const listeDeroulanteWrapper = document.createElement('div');
-        listeDeroulanteWrapper.setAttribute('class', 'dropdown-wrapper m-2 relative');
-        listeDeroulanteWrapper.innerHTML = listeDeroulanteContenu;
+        const DropDownWrapper = document.createElement('div');
+        DropDownWrapper.setAttribute('class', 'dropdown-wrapper m-2 relative');
+        DropDownWrapper.innerHTML = DropDownContent;
 
-        const inputElement = listeDeroulanteWrapper.querySelector(`#search-${this.name}`);
-        const clearButton = listeDeroulanteWrapper.querySelector('#clearInput');
-        this.itemListe = listeDeroulanteWrapper.querySelectorAll('.dropdown_content_list li');
+        const inputElement = DropDownWrapper.querySelector(`#search-${this.name}`);
+        const clearButton = DropDownWrapper.querySelector('#clearInput');
+        this.itemListe = DropDownWrapper.querySelectorAll('.dropdown_content_list li');
 
         inputElement.addEventListener('input', () => {
-            this.search(normalString(inputElement.value), listeDeroulanteWrapper);
+            this.search(normalString(inputElement.value), DropDownWrapper);
             toggleDeleteBtn(inputElement, clearButton);
         });
 
         clearButton.addEventListener('click', () => {
             inputElement.value = '';
             clearButton.classList.add('hidden');
-            this.search('', listeDeroulanteWrapper);
+            this.search('', DropDownWrapper);
         });
 
         this.itemListe.forEach(item => {
@@ -63,7 +61,7 @@ export default class ListeDeroulante {
                 this.handleItemClick(item.textContent);
             });
         });      
-        return listeDeroulanteWrapper;
+        return DropDownWrapper;
     }
 
     handleItemClick(item) {
@@ -71,7 +69,7 @@ export default class ListeDeroulante {
     }
 
     search(recherche, wrapper) {
-        this.filteredItems = filtreListesDeroulante(this.items, recherche);
+        this.filteredItems = filterDropDownLists(this.items, recherche);
         this.updateList(wrapper);
     }
     
