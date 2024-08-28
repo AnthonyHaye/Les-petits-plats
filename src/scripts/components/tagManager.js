@@ -1,15 +1,11 @@
-// tagManager.js
 import { selectedTags, updateRecetteCourante, ToutesRecettes , RecetteFiltrees, AfficheListeDeroulanteFiltre, resetRecetteFiltrees } from '../page/main.js';
 import { combinedFilter } from '../utils/combinedFilter.js';
 
-
 // Function to update the dropdown menu based on selected tags
-     const updateDropdownVisibilityForTags = (type) => {
-    // Get all dropdown items for the specified type
+    const updateDropdownVisibilityForTags = (type) => {
     const dropdownItems = document.querySelectorAll(`.dropdown-item-${type}`);    
     dropdownItems.forEach(item => {
         const itemName = item.textContent.trim();        
-        // If the item is selected, hide it from the dropdown
         if (selectedTags[type].includes(itemName)) {
             item.classList.add('hidden');
         } else {
@@ -24,7 +20,7 @@ export const addTag = (tag, type) => {
         selectedTags[type].push(tag);
         renderTags();
         filterRecettes();
-        updateDropdownVisibilityForTags(type);
+        updateDropdownsVisibility();
     } 
 };
 
@@ -36,7 +32,7 @@ export const removeTag = (tag, type) => {
         selectedTags[type].splice(index, 1);
         renderTags();
         filterRecettes();
-        updateDropdownVisibilityForTags(type);
+        updateDropdownsVisibility();
         if (Object.values(selectedTags).every(tags => tags.length === 0)) {
             // Reset the main research field
             const searchInput = document.getElementById('chercheRecette');
@@ -49,6 +45,11 @@ export const removeTag = (tag, type) => {
     }     
 };
 
+// Met à jour la visibilité de toutes les listes déroulantes pour refléter l'état actuel des tags sélectionnés
+const updateDropdownsVisibility = () => {
+    ['ingredients', 'appareils', 'ustensiles'].forEach(type => updateDropdownVisibilityForTags(type));
+};
+
 // Deletion function of all tags if the deleted button on the search bar is clicked
 export const resetTags = () => {
     for (const type in selectedTags) {
@@ -56,6 +57,7 @@ export const resetTags = () => {
     }
     renderTags();
     filterRecettes();
+    updateDropdownsVisibility();
 };
 
 
@@ -88,8 +90,6 @@ const filterRecettes = () => {
         return; 
     }
     const filteredRecettes = combinedFilter(selectedTags, RecetteFiltrees);
-
-    // Revenue update displayed with filtered recipes
     updateRecetteCourante(filteredRecettes);
     AfficheListeDeroulanteFiltre(filteredRecettes); 
 };
