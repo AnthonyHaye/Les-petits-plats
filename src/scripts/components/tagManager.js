@@ -1,17 +1,14 @@
 // tagManager.js
 import { selectedTags, updateRecetteCourante, ToutesRecettes , RecetteFiltrees, AfficheListeDeroulanteFiltre, resetRecetteFiltrees } from '../page/main.js';
 import { combinedFilter } from '../utils/combinedFilter.js';
-// import { updateDropdown } from '../utils/dropdownUpdater.js';
 
 
 // Function to update the dropdown menu based on selected tags
-     const updateDropdown = (type) => {
+     const updateDropdownVisibilityForTags = (type) => {
     // Get all dropdown items for the specified type
-    const dropdownItems = document.querySelectorAll(`.dropdown-item-${type}`);
-    
+    const dropdownItems = document.querySelectorAll(`.dropdown-item-${type}`);    
     dropdownItems.forEach(item => {
-        const itemName = item.textContent.trim();
-        
+        const itemName = item.textContent.trim();        
         // If the item is selected, hide it from the dropdown
         if (selectedTags[type].includes(itemName)) {
             item.classList.add('hidden');
@@ -27,7 +24,7 @@ export const addTag = (tag, type) => {
         selectedTags[type].push(tag);
         renderTags();
         filterRecettes();
-        updateDropdown(type);
+        updateDropdownVisibilityForTags(type);
     } 
 };
 
@@ -39,7 +36,7 @@ export const removeTag = (tag, type) => {
         selectedTags[type].splice(index, 1);
         renderTags();
         filterRecettes();
-        updateDropdown(type);
+        updateDropdownVisibilityForTags(type);
         if (Object.values(selectedTags).every(tags => tags.length === 0)) {
             // Reset the main research field
             const searchInput = document.getElementById('chercheRecette');

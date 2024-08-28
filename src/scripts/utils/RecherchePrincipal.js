@@ -3,10 +3,20 @@ import { updateRecetteCourante, ToutesRecettes, AfficheListeDeroulanteFiltre, Re
 // Importation de la fonction normalString
 import { normalString } from '../utils/normalString.js';
 
-//
+// Fonction pour afficher ou masquer le message d'erreur
+export const handleNoResultsMessage = (message) => {
+    const noResultsMessage = document.getElementById('no-results-message');
+    if (noResultsMessage) {
+        noResultsMessage.textContent = message || ''; // Met le message ou vide le contenu
+    }
+};
+
 export const RecherchePrincipal = (MotRechercher) => {
     // Si aucun mot de recherche n'est fourni ou si la longueur du mot de recherche est inférieure à 3
     if (!MotRechercher || MotRechercher.length < 3) {
+        // Masquer le message de résultats nuls
+        handleNoResultsMessage();
+
         // Met à jour les recettes courantes avec toutes les recettes
         updateRecetteCourante(ToutesRecettes);
         // Met à jour les listes déroulantes 
@@ -47,6 +57,14 @@ export const RecherchePrincipal = (MotRechercher) => {
                 break;
             }
         }
+    }
+
+    // Si aucune recette n'a été trouvée, affiche le message personnalisé
+    if (RecetteFiltrees.length === 0) {
+        handleNoResultsMessage(`Aucune recette ne contient '${MotRechercher}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`);
+    } else {
+        // Si des recettes ont été trouvées, vide le message de résultats nuls
+        handleNoResultsMessage();
     }
 
     // Met à jour les recettes courantes avec les recettes filtrées

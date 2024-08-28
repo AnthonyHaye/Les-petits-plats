@@ -5,7 +5,7 @@ import ListeDeroulante from '../components/listeDeroulante.js';
 import { openCloseDropdown } from '../utils/openCloseDropdown.js';
 import { extractLesMoyens } from '../utils/ExtractLesMoyens.js';
 import { toggleDeleteBtn } from '../utils/toggleDeleteBtn.js';
-import { RecherchePrincipal } from '../utils/RecherchePrincipal.js';
+import { RecherchePrincipal, handleNoResultsMessage } from '../utils/RecherchePrincipal.js';
 import { resetTags } from '../components/tagManager.js';
 
 const recetteApi = new Api('src/data/recipes.json');
@@ -109,13 +109,13 @@ if (searchInput && clearSearchButton) {
         // Met à jour les recettes courantes avec toutes les recettes
         updateRecetteCourante(ToutesRecettes);
 
+        // Masque le message de résultats nuls
+        handleNoResultsMessage();
+
         // Met à jour les listes déroulantes avec toutes les recettes
         AfficheListeDeroulanteFiltre(ToutesRecettes); // Réinitialise les listes déroulantes
     });
-} else {
-    // Log une erreur si les éléments de recherche ou de suppression ne sont pas trouvés dans le DOM
-    console.error('Les éléments #chercheRecette ou #clearSearchInput sont introuvables.');
-}
+} 
 
 
 
