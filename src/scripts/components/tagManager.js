@@ -14,35 +14,48 @@ import { combinedFilter } from '../utils/combinedFilter.js';
     });
 };
 
+// Function to update all UI elements based on current selected tags
+const updateAll = () => {
+    renderTags();
+    filterRecettes();
+    updateDropdownsVisibility();
+};
+
+// Function to update tags and trigger common actions
+const updateTags = (tag, type, action) => {
+    const tagsList = selectedTags[type];
+    const tagExists = tagsList.includes(tag);
+
+    if (action === 'add' && !tagExists) {
+        tagsList.push(tag);
+    } else if (action === 'remove' && tagExists) {
+        const index = tagsList.indexOf(tag);
+        tagsList.splice(index, 1);
+    } else {
+        // If no valid action, return early
+        return;
+    }
+    updateAll();
+
+    // Additional check for removing the last tag
+    if (action === 'remove' && Object.values(selectedTags).every(tags => tags.length === 0)) {
+        const searchInput = document.getElementById('chercheRecette');
+        if (searchInput) {
+            searchInput.value = '';
+            const clearSearchButton = document.getElementById('clearSearchInput');
+            clearSearchButton.classList.add('hidden');
+        }
+    }
+};
+
 // Function to add a tag
-export const addTag = (tag, type) => {    
-    if (!selectedTags[type].includes(tag)) {
-        selectedTags[type].push(tag);
-        renderTags();
-        filterRecettes();
-        updateDropdownsVisibility();
-    } 
+export const addTag = (tag, type) => {
+    updateTags(tag, type, 'add');
 };
 
 // Function to delete a tag
-export const removeTag = (tag, type) => {    
-    const index = selectedTags[type].indexOf(tag);
-    if (index > -1) {
-        // Remove the tag from the table using Splice
-        selectedTags[type].splice(index, 1);
-        renderTags();
-        filterRecettes();
-        updateDropdownsVisibility();
-        if (Object.values(selectedTags).every(tags => tags.length === 0)) {
-            // Reset the main research field
-            const searchInput = document.getElementById('chercheRecette');
-            if (searchInput) {
-                searchInput.value = '';
-                const clearSearchButton = document.getElementById('clearSearchInput');
-                clearSearchButton.classList.add('hidden');
-            }
-        }        
-    }     
+export const removeTag = (tag, type) => {
+    updateTags(tag, type, 'remove');
 };
 
 // Updates the visibility of all the drop -down lists to reflect the current state of the selected tags
@@ -55,9 +68,7 @@ export const resetTags = () => {
     for (const type in selectedTags) {
         selectedTags[type] = [];
     }
-    renderTags();
-    filterRecettes();
-    updateDropdownsVisibility();
+    updateAll();
 };
 
 // Function to display tags

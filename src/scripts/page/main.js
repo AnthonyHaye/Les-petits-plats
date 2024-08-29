@@ -5,7 +5,7 @@ import DropDownListClass from '../components/dropDownList.js';
 import { openCloseDropdown } from '../utils/openCloseDropdown.js';
 import { extractTheMeans } from '../utils/extractTheMeans.js';
 import { toggleDeleteBtn } from '../utils/toggleDeleteBtn.js';
-import { MainSearch, handleNoResultsMessage } from '../utils/mainSearch.js';
+import { mainSearch, handleNoResultsMessage } from '../utils/mainSearch.js';
 import { resetTags } from '../components/tagManager.js';
 
 const recetteApi = new Api('src/data/recipes.json');
@@ -78,7 +78,7 @@ const clearSearchButton = document.getElementById('clearSearchInput');
 if (searchInput && clearSearchButton) {
     searchInput.addEventListener('input', () => {
         toggleDeleteBtn(searchInput, clearSearchButton);
-        MainSearch(searchInput.value); 
+        mainSearch(searchInput.value); 
     });
     // Add an event earphone 'click' on the deletion button
     clearSearchButton.addEventListener('click', () => {

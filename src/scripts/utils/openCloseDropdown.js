@@ -2,37 +2,46 @@ export const openCloseDropdown = () => {
     const dropdownButtons = document.querySelectorAll('.dropdown-header');
     let chevron;
 
-    // Function to open/close the dropdown
+    function toggleClass(element, className, condition) {
+        if (condition) {
+            element.classList.add(className);
+        } else {
+            element.classList.remove(className);
+        }
+    }
+    
+
     function toggleDropdown(btn) {
         const dropdownHeader = btn.closest('.dropdown-header');
         const dropdownContent = dropdownHeader.nextElementSibling;
-        chevron = btn.querySelector('.fa-chevron-down');
-        chevron.classList.toggle('rotate-180');
-        dropdownContent.classList.toggle('hidden');
-        dropdownHeader.classList.toggle('bg-jaune');
-        dropdownHeader.classList.toggle('hover:bg-jaune');
-        dropdownContent.classList.toggle('z-20');
-        dropdownHeader.classList.toggle('z-20');
-    };
+        const chevron = btn.querySelector('.fa-chevron-down');
+    
+        const isHidden = dropdownContent.classList.contains('hidden');
+    
+        toggleClass(chevron, 'rotate-180', isHidden);
+        toggleClass(dropdownContent, 'hidden', !isHidden);
+        toggleClass(dropdownHeader, 'bg-jaune', isHidden);
+        toggleClass(dropdownHeader, 'hover:bg-jaune', !isHidden);
+        toggleClass(dropdownContent, 'z-20', isHidden);
+        toggleClass(dropdownHeader, 'z-20', isHidden);
+    }
 
-    // Function to close the other dropdowns when one of them is clicked
     function closeOtherDropdowns(clickedButton) {
         dropdownButtons.forEach(btn => {
-            const dropdownHeader = btn.closest('.dropdown-header');
-            const dropdownContent = dropdownHeader.nextElementSibling;
-            chevron = btn.querySelector('.fa-chevron-down');
-
             if (btn !== clickedButton) {
-                // Reset the design of non-clicked dropdowns
-                chevron.classList.remove('rotate-180');
-                dropdownContent.classList.add('hidden');
-                dropdownHeader.classList.remove('bg-jaune');
-                dropdownHeader.classList.add('hover:bg-jaune');
-                dropdownContent.classList.remove('z-20');
-                dropdownHeader.classList.remove('z-20');
+                const dropdownHeader = btn.closest('.dropdown-header');
+                const dropdownContent = dropdownHeader.nextElementSibling;
+                const chevron = btn.querySelector('.fa-chevron-down');
+    
+                toggleClass(chevron, 'rotate-180', false);
+                toggleClass(dropdownContent, 'hidden', true);
+                toggleClass(dropdownHeader, 'bg-jaune', false);
+                toggleClass(dropdownHeader, 'hover:bg-jaune', true);
+                toggleClass(dropdownContent, 'z-20', false);
+                toggleClass(dropdownHeader, 'z-20', false);
             }
         });
-    };
+    }
 
     // Function to manage the focusable elements in the dropdown
     function focusableElements(btn) {
