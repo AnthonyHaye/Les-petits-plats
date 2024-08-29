@@ -2,26 +2,20 @@ import { filterRecettesByTagsIngredient } from './ingredientFilter.js';
 import { filterRecettesByTagsAppareil } from './appareilFilter.js';
 import { filterRecettesByTagsUstensile } from './ustensileFilter.js';
 
-export function combinedFilter(tags, recettes) {
-
-        console.log('Tags:', tags);
+export function combinedFilter(tags, recettes) {        
     let results = recettes;
-
-
-    // Filtrer par ingrédients
+    
+    // Filter by ingredient
     if (tags.ingredients.length > 0) {
         results = filterRecettesByTagsIngredient(tags.ingredients, results);
     }
-
-    // Filtrer par appareils
+    // Filter by appareils
     if (tags.appareils.length > 0) {
         results = filterRecettesByTagsAppareil(tags.appareils, results);
     }
-
-    // Filtrer par ustensiles
+    // Filter by ustensiles
     if (tags.ustensiles.length > 0) {
         results = filterRecettesByTagsUstensile(tags.ustensiles, results);
     }
-
     return results;
 }

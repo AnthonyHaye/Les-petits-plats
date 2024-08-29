@@ -1,68 +1,57 @@
-console.log('Bonjour Anthony Haye');
 import Api from '../api/api.js';
 import Recette from '../models/Recette.js';
 import RecetteCard from '../components/RecetteCard.js';
-import ListeDeroulante from '../components/listeDeroulante.js';
+import DropDownListClass from '../components/dropDownList.js';
 import { openCloseDropdown } from '../utils/openCloseDropdown.js';
-import { extractLesMoyens } from '../utils/ExtractLesMoyens.js';
+import { extractTheMeans } from '../utils/extractTheMeans.js';
 import { toggleDeleteBtn } from '../utils/toggleDeleteBtn.js';
-// import { filterRecettesByTagsIngredient } from '../utils/ingredientFilter.js';
-// import { filterRecettesByTagsAppareil } from '../utils/appareilFilter.js';
-// import { filterRecettesByTagsUstensile } from '../utils/ustensileFilter.js';
-// import { combinedFilter } from '../utils/combinedFilter.js';
-// import { addTag, removeTag  } from '../components/tagManager.js';
-import { RecherchePrincipal } from '../utils/RecherchePrincipal.js';
-import { combinedFilter } from '../utils/combinedFilter.js';
+import { mainSearch, handleNoResultsMessage } from '../utils/mainSearch.js';
 import { resetTags } from '../components/tagManager.js';
 
 const recetteApi = new Api('src/data/recipes.json');
-export const ToutesRecettes = await recetteApi.get();
-console.log(ToutesRecettes);
+export const AllRecipes = await recetteApi.get();
 
-// Copie du tableau de recettes pour pouvoir filtrer les recettes en cours
-export const RecetteCourante = [...ToutesRecettes];
+// Copy of the recipe panel to be able to filter the current recipes
+export const CurrentRecipe = [...AllRecipes];
 
-// Met à jour le tableau RecetteCourante pour qu'il contienne les mêmes éléments du tableau RecetteFiltre.
-export const updateRecetteCourante = RecetteFiltre => {
-    RecetteCourante.splice(0, RecetteCourante.length, ...RecetteFiltre);
-    AfficheRecetteCards(); // Mettre à jour l'affichage des cartes de recettes
-    updateNombreDeRecettes(); // Mettre à jour le nombre de recettes affichées
+export const updateCurrentRecipe = FilterRecipe => {
+    CurrentRecipe.splice(0, CurrentRecipe.length, ...FilterRecipe);
+    DisplayRecipeCards(); 
+    UpdateRecipesNumber(); 
 };
 
-//  export const selectedTags = [];
 export const selectedTags = {
     ingredients: [],
     appareils: [],
     ustensiles: []
 };
-export const ListeDeroulantes = [];
-export const RecetteARechercher = document.querySelector('#chercheRecette');
+const DropDownList = [];
 
-export const AfficheListeDeroulanteFiltre = (recettes = ToutesRecettes) => {
-    const nombreDeRecette = document.querySelector('.nbr_recette');
-    nombreDeRecette.textContent = `${recettes.length} recettes`;
+export const DisplayFilteredDropdownList = (recettes = AllRecipes) => {
+    const RecipesNumber = document.querySelector('.nbr_recette');
+    RecipesNumber.textContent = `${recettes.length} recettes`;
 
     const filterSection = document.querySelector('.contenairFiltre');
-    filterSection.innerHTML = ''; // Effacer les anciennes listes déroulantes
+    filterSection.innerHTML = ''; 
 
-    const ustensileListeDeroulante = new ListeDeroulante('Ustensiles', extractLesMoyens(recettes).ustensils, 'ustensiles');
+    const ustensileListeDeroulante = new DropDownListClass('Ustensiles', extractTheMeans(recettes).ustensils, 'ustensiles');
     filterSection.appendChild(ustensileListeDeroulante.createListeDeroulante());
-    ListeDeroulantes.push(ustensileListeDeroulante);        
+    DropDownList.push(ustensileListeDeroulante);        
 
-    const appareilsListeDeroulante = new ListeDeroulante('Appareils', extractLesMoyens(recettes).appliances, 'appareils');
+    const appareilsListeDeroulante = new DropDownListClass('Appareils', extractTheMeans(recettes).appliances, 'appareils');
     filterSection.appendChild(appareilsListeDeroulante.createListeDeroulante());
-    ListeDeroulantes.push(appareilsListeDeroulante);
+    DropDownList.push(appareilsListeDeroulante);
 
-    const ingredientListeDeroulante = new ListeDeroulante('Ingrédients', extractLesMoyens(recettes).ingredients, 'ingredients');
+    const ingredientListeDeroulante = new DropDownListClass('Ingrédients', extractTheMeans(recettes).ingredients, 'ingredients');
     filterSection.appendChild(ingredientListeDeroulante.createListeDeroulante());
-    ListeDeroulantes.push(ingredientListeDeroulante);
+    DropDownList.push(ingredientListeDeroulante);
     openCloseDropdown();
 };
 
-export const AfficheRecetteCards = () => {
+const DisplayRecipeCards = () => {
     const cardSection = document.querySelector('.card_section');
-    cardSection.innerHTML = ''; // Effacer les cartes existantes
-    RecetteCourante
+    cardSection.innerHTML = ''; 
+    CurrentRecipe
         .map(recette => new Recette(recette))
         .forEach(recette => {
             const templateCard = new RecetteCard(recette);
@@ -70,66 +59,39 @@ export const AfficheRecetteCards = () => {
         });
 };
 
-// Fonction pour mettre à jour le nombre de recettes affichées
-const updateNombreDeRecettes = () => {
-    const nombreDeRecette = document.querySelector('.nbr_recette');
-    nombreDeRecette.textContent = `${RecetteCourante.length} recettes`;
+// Function to update the number of recipes displayed
+const UpdateRecipesNumber = () => {
+    const RecipesNumber = document.querySelector('.nbr_recette');
+    RecipesNumber.textContent = `${CurrentRecipe.length} recettes`;
 };
 
-export const RecetteFiltrees = [...ToutesRecettes]; 
+export const FilterRecipes = [...AllRecipes]; 
 
-// fonction pour réinitialiser les recettes filtrées
-export const resetRecetteFiltrees = () => {
-    RecetteFiltrees.splice(0, RecetteFiltrees.length, ...ToutesRecettes);
+// Function to reset filtered recipes
+export const ResetFilterRecipe = () => {
+    FilterRecipes.splice(0, FilterRecipes.length, ...AllRecipes);
 };
 
-// Ajout de la fonctionnalité de suppression pour l'input de recherche dans le header
+
 const searchInput = document.getElementById('chercheRecette');
 const clearSearchButton = document.getElementById('clearSearchInput');
-
-// 
-
-// Vérifie si les éléments de recherche et de suppression existent dans le DOM
 if (searchInput && clearSearchButton) {
-    console.log("Les éléments ont été trouvés !");
-
-    // Ajoute un écouteur d'événement 'input' sur l'élément de recherche
     searchInput.addEventListener('input', () => {
-        // Appelle la fonction toggleDeleteBtn pour afficher ou cacher le bouton de suppression
         toggleDeleteBtn(searchInput, clearSearchButton);
-
-        // Appelle la fonction RecherchePrincipal avec la valeur actuelle de l'input
-        RecherchePrincipal(searchInput.value); // Exécute la fonction de recherche
+        mainSearch(searchInput.value); 
     });
-
-    // Ajoute un écouteur d'événement 'click' sur le bouton de suppression
+    // Add an event earphone 'click' on the deletion button
     clearSearchButton.addEventListener('click', () => {
-        // Réinitialise la valeur de l'input de recherche
+        // Function update
         searchInput.value = '';
-
-        // Ajoute la classe 'hidden' pour cacher le bouton de suppression
         clearSearchButton.classList.add('hidden');
-
-        // Réinitialise tous les tags
         resetTags();
-
-        // Réinitialise les recettes filtrées
-        resetRecetteFiltrees(); 
-
-        // Met à jour les recettes courantes avec toutes les recettes
-        updateRecetteCourante(ToutesRecettes);
-
-        // Met à jour les listes déroulantes avec toutes les recettes
-        AfficheListeDeroulanteFiltre(ToutesRecettes); // Réinitialise les listes déroulantes
+        ResetFilterRecipe(); 
+        updateCurrentRecipe(AllRecipes);
+        handleNoResultsMessage();
+        DisplayFilteredDropdownList(AllRecipes); 
     });
-} else {
-    // Log une erreur si les éléments de recherche ou de suppression ne sont pas trouvés dans le DOM
-    console.error('Les éléments #chercheRecette ou #clearSearchInput sont introuvables.');
-}
+} 
 
-
-
-
-AfficheListeDeroulanteFiltre(RecetteFiltrees);
-AfficheRecetteCards();
-
+DisplayFilteredDropdownList(FilterRecipes);
+DisplayRecipeCards();
