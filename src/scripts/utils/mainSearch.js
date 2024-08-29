@@ -18,7 +18,6 @@ export const handleNoResultsMessage = (message) => {
     }
 };
 
-
 export const mainSearch = (StringSearch) => {
     // If no search word is provided or if the length of the search word is less than 3
     if (!StringSearch || StringSearch.length < 3) {

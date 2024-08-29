@@ -26,6 +26,5 @@ export function filterRecettesByTagsIngredient(tags, recettes) {
             results.push(recette); // Add the recipe to the results if all tags are matched
         }
     }
-
     return results; 
 }

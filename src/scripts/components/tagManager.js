@@ -32,12 +32,10 @@ const updateTags = (tag, type, action) => {
         const index = tagsList.indexOf(tag);
         tagsList.splice(index, 1);
     } else {
-        // If no valid action, return early
         return;
     }
     updateAll();
-
-    // Additional check for removing the last tag
+    
     if (action === 'remove' && Object.values(selectedTags).every(tags => tags.length === 0)) {
         const searchInput = document.getElementById('chercheRecette');
         if (searchInput) {

@@ -6,21 +6,21 @@ export const extractTheMeans = recet => {
             ustensils: new Set()
         };
     
-        const addMoyenADisposer = (MoyenADisposer, value) => MoyenADisposer.add(normalString(value));
+        const addMeanToDispose = (meanToDispose, value) => meanToDispose.add(normalString(value));
     
         recet.forEach(recette => {
-            recette.ingredients.forEach(ingredient => addMoyenADisposer(theMeans.ingredients, ingredient.ingredient));
-            addMoyenADisposer(theMeans.appliances, recette.appliance);
-            recette.ustensils.forEach(ustensil => addMoyenADisposer(theMeans.ustensils, ustensil));
+            recette.ingredients.forEach(ingredient => addMeanToDispose(theMeans.ingredients, ingredient.ingredient));
+            addMeanToDispose(theMeans.appliances, recette.appliance);
+            recette.ustensils.forEach(ustensil => addMeanToDispose(theMeans.ustensils, ustensil));
         });
     
         // Converted the sets into sorted tables in alphabetical order
-        const MoyenADisposerTableau = {
+        const meanToDisposeArray = {
             ingredients: Array.from(theMeans.ingredients).sort(),
             appliances: Array.from(theMeans.appliances).sort(),
             ustensils: Array.from(theMeans.ustensils).sort()
         };
     
-        return MoyenADisposerTableau;
+        return meanToDisposeArray;
     };
     

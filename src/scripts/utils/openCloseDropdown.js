@@ -8,8 +8,7 @@ export const openCloseDropdown = () => {
         } else {
             element.classList.remove(className);
         }
-    }
-    
+    }   
 
     function toggleDropdown(btn) {
         const dropdownHeader = btn.closest('.dropdown-header');
