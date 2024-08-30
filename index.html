@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="src/css/style.css" rel="stylesheet">
-  <!-- Ajouter les polices Google -->
+  <link href="src/css/style.css" rel="stylesheet">  
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Manrope&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <title>Les petits plats</title>
 </head>
+
 <body class="font-manrope bg-gris-light xl:max-w-screen-xl xl:mx-auto">
   <header class=" relative bg-cover bg-center bg-banner h-96  "
     style="background-image: url('src/img/utils/banner.webp');"  aria-label="Bannière du site">
@@ -32,9 +33,7 @@
               <span class="fas fa-times lg:text-2xl "></span>
             </button>
             <label for="chercheRecette" tabindex="0" aria-label="Recherche recette"></label>
-            <button
-              class="p-3 bg-gray-800 text-white flex items-center justify-center hover:bg-jaune hover:text-noir rounded-r-lg"  aria-label="Bouton de recherche"
-              aria-label="Bouton de recherche">
+            <button class="p-3 bg-gray-800 text-white flex items-center justify-center hover:bg-jaune hover:text-noir rounded-r-lg"  aria-label="Bouton de recherche">
               <i class="fas fa-search lg:text-2xl " aria-hidden="true"></i>
             </button>
           </div>
@@ -42,19 +41,17 @@
       </div>
     </div>
   </header>
+
   <main class="flex flex-col  w-full min-h-full relative " aria-label="Contenu principal">
-    <div class="filter_section flex flex-col items-center  w-full  relative z-20 lg:flex-row-reverse justify-between" aria-label="Section de filtrage"> <!-- relative pour positionnement z-10 pour la liste déroulante -->
+    <div class="filter_section flex flex-col items-center  w-full  relative z-20 lg:flex-row-reverse justify-between"> 
       <p class="nbr_recette font-bold text-xl font-anton m-2 flex justify-center " aria-live="polite"></p>
       <div class="contenairFiltre flex flex-col justify-between  lg:flex-row-reverse" role="region" aria-label="Filtres"></div>      
     </div>
     <div class="tag_section w-full flex flex-col-reverse items-center  lg:flex-row flex-wrap" role="region" aria-label="Section des tags"></div>
-    <div id="no-results-message" class="text-center mt-4"></div>
-    
-    <!-- <div class="card_section flex flex-col lg:grid gap-4 grid-cols-3 grid-rows-3 justify-items-center bg-gris-light relative z-10"></div> relative et z-0 pour que les cartes soient derrière la liste déroulante --> 
-     <div class="card_section flex flex-col items-center relative z-10 lg:grid gap-4 grid-cols-3 grid-rows-3 justify-items-center bg-gris-light "></div>
-     <!-- <div class="card_section grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center bg-gris-light"></div> -->
-
+    <div id="no-results-message" class="text-center mt-4"></div>    
+    <div class="card_section flex flex-col items-center relative z-10 lg:grid gap-4 grid-cols-3 grid-rows-3 justify-items-center bg-gris-light "></div>   
   </main>
+
   <script type="module" src="src/scripts/page/main.js"></script>
 </body>
 </html>
