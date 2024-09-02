@@ -3,9 +3,9 @@ import { combinedFilter } from '../utils/combinedFilter.js';
 
 // Function to update the dropdown menu based on selected tags
 const updateDropdownVisibilityForTags = (type) => {
-    const dropdownItems = document.querySelectorAll(`.dropdown-item-${type}`);
+    const dropdownItems = document.querySelectorAll(`.dropdown-item-${type}`);    
     dropdownItems.forEach(item => {
-        const itemName = item.textContent.trim();
+        const itemName = item.textContent.trim();        
         if (selectedTags[type].includes(itemName)) {
             item.classList.add('hidden');
         } else {
@@ -13,7 +13,6 @@ const updateDropdownVisibilityForTags = (type) => {
         }
     });
 };
-
 
 // Function to update all UI elements based on current selected tags
 const updateAll = () => {

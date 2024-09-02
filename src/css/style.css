@@ -11167,10 +11167,6 @@ video {
   position: relative;
 }
 
-.\!relative{
-  position: relative !important;
-}
-
 .sticky{
   position: sticky;
 }
@@ -13282,7 +13278,6 @@ video {
 
 .height-40rem {
   height: 40rem;
-  /* Deux fois la hauteur de la fenêtre */
 }
 
 .w-400 {
@@ -13300,19 +13295,6 @@ video {
 .h-730 {
   height: 730px;
 }
-
-.Steeve{
-  flex-grow: 1;
-  padding: 0.75rem;
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-/* *{
-  @apply border-solid border-black border-2;
-} */
 
 @media (min-width: 640px){
   .sm\:container{
@@ -13467,5 +13449,7 @@ video {
     }
   }
 }
+
+
 
 

@@ -5,10 +5,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Classe personnalisée  */
 .height-40rem {
-    height: 40rem; /* Deux fois la hauteur de la fenêtre */
+    height: 40rem; 
   }
 
 .w-400 {
@@ -27,12 +26,5 @@
 }
 
 
-.Steeve{
-  @apply flex-grow p-3 text-black outline-none;
-}
-
-/* *{
-  @apply border-solid border-black border-2;
-} */
 
 

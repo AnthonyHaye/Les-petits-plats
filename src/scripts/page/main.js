@@ -29,7 +29,8 @@ const DropDownList = [];
 
 export const DisplayFilteredDropdownList = (recettes = AllRecipes) => {
     const RecipesNumber = document.querySelector('.nbr_recette');
-    RecipesNumber.textContent = `${recettes.length} recettes`;
+    const count = recettes.length; 
+    RecipesNumber.textContent = `${count} ${getRecetteText(count)}`;
 
     const filterSection = document.querySelector('.contenairFiltre');
     filterSection.innerHTML = ''; 
@@ -59,11 +60,18 @@ const DisplayRecipeCards = () => {
         });
 };
 
+// Function to correctly display the singular or plural form of "recette"
+const getRecetteText = (count) => {
+    return count > 1 ? 'recettes' : 'recette';
+};
+
 // Function to update the number of recipes displayed
 const UpdateRecipesNumber = () => {
     const RecipesNumber = document.querySelector('.nbr_recette');
-    RecipesNumber.textContent = `${CurrentRecipe.length} recettes`;
+    const count = CurrentRecipe.length; 
+    RecipesNumber.textContent = `${count} ${getRecetteText(count)}`;
 };
+
 
 export const FilterRecipes = [...AllRecipes]; 
 

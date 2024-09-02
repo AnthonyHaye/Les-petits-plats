@@ -1,5 +1,6 @@
 import { updateCurrentRecipe, AllRecipes, DisplayFilteredDropdownList, FilterRecipes } from '../page/main.js';
 import { normalString } from './normalString.js';
+import { resetTags } from '../components/tagManager.js';
 
 // Function to display or hide the error message
 export const handleNoResultsMessage = (message) => {
@@ -22,6 +23,7 @@ export const mainSearch = (StringSearch) => {
     // If no search word is provided or if the length of the search word is less than 3
     if (!StringSearch || StringSearch.length < 3) {
         handleNoResultsMessage();
+        resetTags();
         updateCurrentRecipe(AllRecipes); 
         DisplayFilteredDropdownList(AllRecipes);        
         return;

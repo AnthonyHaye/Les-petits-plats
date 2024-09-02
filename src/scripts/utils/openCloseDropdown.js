@@ -23,6 +23,14 @@ export const openCloseDropdown = () => {
         toggleClass(dropdownHeader, 'hover:bg-jaune', !isHidden);
         toggleClass(dropdownContent, 'z-20', isHidden);
         toggleClass(dropdownHeader, 'z-20', isHidden);
+
+        if (isHidden) {
+            const searchInput = dropdownContent.querySelector('input');
+            if (searchInput) {
+                searchInput.focus();
+            }
+        }
+        
     }
 
     function closeOtherDropdowns(clickedButton) {
