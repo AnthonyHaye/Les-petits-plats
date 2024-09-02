@@ -4,8 +4,15 @@ export function filterRecettesByTagsUstensile(tags, recettes) {
     let results = [];    
     for (const recette of recettes) {
         let containsAllTags = true;        
-        for (const tag of tags) {            
-            if (!recette.ustensils.some(ustensil => normalString(ustensil).includes(normalString(tag)))) {
+        for (const tag of tags) {
+            let containsTag = false;
+            for (const ustensil of recette.ustensils) {
+                if (normalString(ustensil).includes(normalString(tag))) {
+                    containsTag = true;
+                    break;
+                }
+            }
+            if (!containsTag) {
                 containsAllTags = false;
                 break;
             }
@@ -16,4 +23,3 @@ export function filterRecettesByTagsUstensile(tags, recettes) {
     }
     return results;
 }
-
