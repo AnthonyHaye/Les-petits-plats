@@ -1,11 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // content: ["./src/**/*.{html,js}", "./index.html"],
   content: ["./**/*.{html,js}"],
   theme: {
     extend: {
       backgroundImage: {
-        'banner': "url('./img/utils/banner.webp')",
+        'banner-image': "url('../img/utils/banner.webp')", 
       },
       height: {
         '40rem': '40rem',
@@ -26,4 +25,3 @@ module.exports = {
   },
   plugins: [],
 }
-
