@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'banner': "url('./img/utils/banner.webp')",
+        'banner': "url('../img/utils/banner.webp')",
       },
       height: {
         '40rem': '40rem',

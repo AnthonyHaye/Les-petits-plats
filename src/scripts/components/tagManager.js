@@ -2,7 +2,7 @@ import { selectedTags, updateCurrentRecipe, AllRecipes , FilterRecipes, DisplayF
 import { combinedFilter } from '../utils/combinedFilter.js';
 
 // Function to update the dropdown menu based on selected tags
-    const updateDropdownVisibilityForTags = (type) => {
+const updateDropdownVisibilityForTags = (type) => {
     const dropdownItems = document.querySelectorAll(`.dropdown-item-${type}`);    
     dropdownItems.forEach(item => {
         const itemName = item.textContent.trim();        
